@@ -1,0 +1,201 @@
+openapi: 3.0.3
+info:
+  title: Mortgage Payments Tracker API
+  description: "This is a API server based around connexion. See [Github](https://github.com/NCHlab/Python_Server_Implementations) repository for more information"
+  contact:
+    email: contact@nayamc.com
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:4004/api/v1
+paths:
+  /payments:
+    get:
+      tags:
+        - Payments
+      summary: Retrieve payments for user
+      description: ""
+      operationId: get_payments
+      x-openapi-router-controller: app.routes.payments
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_payments"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+    post:
+      tags:
+        - Payments
+      summary: Submit a payment
+      description: ""
+      operationId: add_payment
+      x-openapi-router-controller: app.routes.payments
+      x-codegen-request-body-name: body
+      requestBody:
+        required: false
+        description: add_payment object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/add_payment"
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+
+  /payments/all:
+    get:
+      tags:
+        - Payments
+      summary: Retrieve payments for all users
+      description: ""
+      operationId: get_all_payments
+      x-openapi-router-controller: app.routes.payments
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_payments"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_401_Response"
+  /get_login:
+    get:
+      tags:
+        - Login
+      summary: Send a GET Req to hello endpoint
+      description: Request
+      operationId: get_login
+      x-openapi-router-controller: app.routes.login
+      responses:
+        200:
+          description: Successful operation
+  /login:
+    post:
+      tags:
+        - Login
+      summary: Login to gain a session token
+      description: ""
+      operationId: login_endpoint
+      x-openapi-router-controller: app.routes.login
+      # requestBody:
+      #   required: false
+      # description: Tests object
+      # content:
+      #   application/json:
+      #     schema:
+      #       $ref: "#/components/schemas/login_details"
+      security:
+        - BasicAuth: []
+      x-codegen-request-body-name: body
+      responses:
+        400:
+          description: Invalid Params
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+        405:
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+components:
+  schemas:
+    add_payment:
+      type: object
+      properties:
+        paid:
+          type: number
+        date:
+          type: string
+        reason:
+          type: string
+        from_tenant:
+          type: integer
+      required:
+        - paid
+        - date
+        - reason
+        - from_tenant
+      example:
+        {
+          "paid": 100.0,
+          "reason": "monthly",
+          "date": "2021-12-29T13:59:13.538667",
+          "from_tenant": 0,
+        }
+    get_payments:
+      type: array
+      items:
+        properties:
+          user_id:
+            type: string
+          paid:
+            type: number
+            example: 100
+          date:
+            type: string
+            example: "2021-12-29T13:59:13.538667"
+          reason:
+            type: string
+            example: monthly payment
+          from_tenant:
+            type: integer
+            example: 0
+    Api_200_Response:
+      type: object
+      properties:
+        set_message:
+          type: string
+          example: Query Value
+    Api_400_Response:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Error Response
+    Api_401_Response:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Error Response
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+      x-basicInfoFunc: app.core.authentication.validate_basic_auth
+    # BearerAuth:
+    #   type: http
+    #   scheme: bearer
+    #   x-bearerInfoFunc: app.core.authentication.validate_bearer_token
