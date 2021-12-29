@@ -11,6 +11,7 @@ from app.core.configs import Config
 from app.core.error_handlers import (
     method_not_allowed_400,
     method_not_allowed_401,
+    method_not_allowed_404,
     method_not_allowed_405,
 )
 
@@ -63,6 +64,7 @@ def create_app():
 
     app.add_error_handler(400, method_not_allowed_400)
     app.add_error_handler(401, method_not_allowed_401)
+    app.add_error_handler(404, method_not_allowed_404)
     app.add_error_handler(405, method_not_allowed_405)
 
     return app.app

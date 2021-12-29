@@ -1,8 +1,9 @@
-from app.controller.payments_controller import (
+from app.service.payments_service import (
     single_user_payments,
     all_user_payments,
     insert_payment,
     delete_payment,
+    update_payment,
 )
 
 
@@ -30,5 +31,12 @@ def add_payment(body):
 def remove_payment(id):
 
     delete_payment(id)
+
+    return "", 204
+
+
+def modify_payment(body):
+
+    update_payment(body)
 
     return "", 204

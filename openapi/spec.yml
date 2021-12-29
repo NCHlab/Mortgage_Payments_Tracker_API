@@ -53,6 +53,30 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Api_400_Response"
+    put:
+      tags:
+        - Payments
+      summary: Update a payment
+      description: ""
+      operationId: modify_payment
+      x-openapi-router-controller: app.routes.payments
+      x-codegen-request-body-name: body
+      requestBody:
+        required: true
+        description: modify_payment object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/modify_payment"
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
   /payments/{id}:
     delete:
       tags:
@@ -173,6 +197,33 @@ components:
         - from_tenant
       example:
         {
+          "paid": 100.0,
+          "reason": "monthly",
+          "date": "2021-12-29T13:59:13.538667",
+          "from_tenant": 0,
+        }
+    modify_payment:
+      type: object
+      properties:
+        id:
+          type: integer
+        paid:
+          type: number
+        date:
+          type: string
+        reason:
+          type: string
+        from_tenant:
+          type: integer
+      required:
+        - id
+        - paid
+        - date
+        - reason
+        - from_tenant
+      example:
+        {
+          "id": 1,
           "paid": 100.0,
           "reason": "monthly",
           "date": "2021-12-29T13:59:13.538667",
