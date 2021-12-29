@@ -117,7 +117,7 @@ def update_overpayment(body):
             abort(404)
 
         con.execute(
-            """UPDATE payments
+            """UPDATE overpayments
         SET 
         paid = :paid,
         date = :date,

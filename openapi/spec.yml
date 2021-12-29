@@ -101,7 +101,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Api_400_Response"
-
   /payments/all:
     get:
       tags:
@@ -117,6 +116,120 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/get_payments"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_401_Response"
+  /overpayments:
+    get:
+      tags:
+        - Overpayments
+      summary: Retrieve overpayments for user
+      description: ""
+      operationId: get_overpayments
+      x-openapi-router-controller: app.routes.overpayments
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_overpayments"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+    post:
+      tags:
+        - Overpayments
+      summary: Submit an overpayment
+      description: ""
+      operationId: add_overpayment
+      x-openapi-router-controller: app.routes.overpayments
+      x-codegen-request-body-name: body
+      requestBody:
+        required: true
+        description: add_overpayment object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/add_overpayment"
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+    put:
+      tags:
+        - Overpayments
+      summary: Update an overpayment
+      description: ""
+      operationId: modify_overpayment
+      x-openapi-router-controller: app.routes.overpayments
+      x-codegen-request-body-name: body
+      requestBody:
+        required: true
+        description: modify_overpayment object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/modify_overpayment"
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+  /overpayments/{id}:
+    delete:
+      tags:
+        - Overpayments
+      summary: Delete an overpayment
+      description: ""
+      operationId: remove_overpayment
+      x-openapi-router-controller: app.routes.overpayments
+      parameters:
+        - name: id
+          in: path
+          description: The id to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+  /overpayments/all:
+    get:
+      tags:
+        - Overpayments
+      summary: Retrieve overpayments for all users
+      description: ""
+      operationId: get_all_overpayments
+      x-openapi-router-controller: app.routes.overpayments
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_overpayments"
         401:
           description: Not Authenticated
           content:
@@ -247,6 +360,65 @@ components:
           from_tenant:
             type: integer
             example: 0
+    add_overpayment:
+      type: object
+      properties:
+        paid:
+          type: number
+        date:
+          type: string
+        reason:
+          type: string
+      required:
+        - paid
+        - date
+        - reason
+      example:
+        {
+          "paid": 100.0,
+          "reason": "monthly",
+          "date": "2021-12-29T13:59:13.538667",
+        }
+    modify_overpayment:
+      type: object
+      properties:
+        id:
+          type: integer
+        paid:
+          type: number
+        date:
+          type: string
+        reason:
+          type: string
+        from_tenant:
+          type: integer
+      required:
+        - id
+        - paid
+        - date
+        - reason
+      example:
+        {
+          "id": 1,
+          "paid": 100.0,
+          "reason": "monthly",
+          "date": "2021-12-29T13:59:13.538667",
+        }
+    get_overpayments:
+      type: array
+      items:
+        properties:
+          user_id:
+            type: string
+          paid:
+            type: number
+            example: 100
+          date:
+            type: string
+            example: "2021-12-29T13:59:13.538667"
+          reason:
+            type: string
+            example: monthly payment
     Api_200_Response:
       type: object
       properties:
