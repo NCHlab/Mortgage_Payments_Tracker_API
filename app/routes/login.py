@@ -1,6 +1,4 @@
-import connexion
 from flask import session
-from flask_session import Session
 
 from app.controller.login_controller import parse_login, set_last_login_timestamp
 from app.core.utils import get_session

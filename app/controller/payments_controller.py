@@ -1,4 +1,9 @@
-from app.core.utils import get_session, parse_db_data
+from app.core.utils import (
+    get_session,
+    parse_multi_db_data,
+    log_to_db,
+    parse_single_db_data,
+)
 from app.core.db import get_db
 
 
@@ -10,7 +15,7 @@ def single_user_payments():
     c.execute("""SELECT * FROM payments WHERE user_id == :user""", {"user": username})
     data = c.fetchall()
 
-    list_of_payments = parse_db_data(data)
+    list_of_payments = parse_multi_db_data(data)
 
     return list_of_payments
 
@@ -24,7 +29,7 @@ def all_user_payments():
     c.execute("""SELECT * FROM payments""")
     data = c.fetchall()
 
-    list_of_payments = parse_db_data(data)
+    list_of_payments = parse_multi_db_data(data)
 
     return list_of_payments
 
@@ -48,3 +53,42 @@ def insert_payment(body):
                 "from_tenant": body["from_tenant"],
             },
         )
+
+    log_msg = {
+        "message": f"Values inserted into payments by {username}",
+        "values": [
+            username,
+            body["paid"],
+            body["reason"],
+            body["date"],
+            body["from_tenant"],
+        ],
+    }
+
+    log_to_db(log_msg)
+
+
+def delete_payment(id):
+    username = get_session()
+
+    con = get_db()
+    with con:
+        data = con.execute(
+            """SELECT * FROM payments WHERE id == :id""", {"id": id}
+        ).fetchone()
+        con.execute("""DELETE FROM payments WHERE id == :id""", {"id": id})
+
+    data = parse_single_db_data(data)
+
+    log_msg = {
+        "message": f"Values Deleted from payments by {username}",
+        "values": [
+            username,
+            data["paid"],
+            data["reason"],
+            data["date"],
+            data["from_tenant"],
+        ],
+    }
+
+    log_to_db(log_msg)

@@ -3,7 +3,9 @@ import connexion
 from flask_cors import CORS
 from flask_session import Session
 
-# from flask import g
+from flask import session
+from datetime import timedelta
+
 from app.core.db import close_connection
 from app.core.configs import Config
 from app.core.error_handlers import (
@@ -53,6 +55,11 @@ def create_app():
 
     Session(app.app)
     CORS(app.app, supports_credentials=True)
+
+    @app.app.before_request
+    def before_request():
+        session.permanent = True
+        app.app.permanent_session_lifetime = timedelta(hours=6)
 
     app.add_error_handler(400, method_not_allowed_400)
     app.add_error_handler(401, method_not_allowed_401)

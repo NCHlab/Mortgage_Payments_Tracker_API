@@ -38,12 +38,36 @@ paths:
       x-openapi-router-controller: app.routes.payments
       x-codegen-request-body-name: body
       requestBody:
-        required: false
+        required: true
         description: add_payment object
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/add_payment"
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+  /payments/{id}:
+    delete:
+      tags:
+        - Payments
+      summary: Delete a payment
+      description: ""
+      operationId: remove_payment
+      x-openapi-router-controller: app.routes.payments
+      parameters:
+        - name: id
+          in: path
+          description: The id to be deleted
+          required: true
+          schema:
+            type: integer
       responses:
         204:
           description: Successful operation
