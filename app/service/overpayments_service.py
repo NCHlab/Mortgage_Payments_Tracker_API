@@ -41,7 +41,6 @@ def delete_overpayment(id):
 
 
 def update_overpayment(body):
-    print("HERE")
 
     get_session()
 
