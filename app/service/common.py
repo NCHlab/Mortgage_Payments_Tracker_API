@@ -64,6 +64,7 @@ def insert_to_table(table_name, col_names, placeholder, values):
 
     log_msg = {
         "message": f"Values inserted into {table_name} by {username}",
+        "state": "INSERT",
         "values": values,
     }
 
@@ -92,6 +93,7 @@ def delete_from_table(_id, table_name):
 
     log_msg = {
         "message": f"Values deleted from {table_name} by {username}",
+        "state": "DELETE",
         "values": values,
     }
 
@@ -124,7 +126,8 @@ def update_table(_id, table_name, col_names_and_placeholder, values):
     values["user_id"] = username
 
     log_msg = {
-        "message": f"Values updated in home_improvements by {username}",
+        "message": f"Values updated in {table_name} by {username}",
+        "state": "UPDATE",
         "prev_values": prev_values,
         "new_values": values,
     }
