@@ -1,3 +1,5 @@
+from flask import abort
+
 from app.core.utils import (
     get_session,
     parse_multi_db_data,
@@ -5,7 +7,6 @@ from app.core.utils import (
     parse_single_db_data,
 )
 from app.core.db import get_db
-from flask import abort
 
 
 def single_user_payments():
