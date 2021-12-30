@@ -7,6 +7,12 @@ info:
   version: 1.0.0
 servers:
   - url: http://127.0.0.1:4004/api/v1
+tags:
+  - name: "Login"
+  - name: "Logout"
+  - name: "Payments"
+  - name: "Overpayments"
+  - name: "Home Improvements"
 paths:
   /payments:
     get:
@@ -354,7 +360,7 @@ paths:
     get:
       tags:
         - Login
-      summary: Send a GET Req to hello endpoint
+      summary: Check if logged in
       description: Request
       operationId: get_login
       x-openapi-router-controller: app.routes.login
@@ -369,13 +375,6 @@ paths:
       description: ""
       operationId: login_endpoint
       x-openapi-router-controller: app.routes.login
-      # requestBody:
-      #   required: false
-      # description: Tests object
-      # content:
-      #   application/json:
-      #     schema:
-      #       $ref: "#/components/schemas/login_details"
       security:
         - BasicAuth: []
       x-codegen-request-body-name: body
@@ -404,6 +403,17 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Api_400_Response"
+  /logout:
+    post:
+      tags:
+        - Logout
+      summary: Clears the session
+      description: ""
+      operationId: logout_endpoint
+      x-openapi-router-controller: app.routes.logout
+      responses:
+        204:
+          description: No Content
 components:
   schemas:
     add_payment:

@@ -3,6 +3,7 @@ import base64
 from datetime import datetime
 
 from app.core.db import get_db
+from app.core.utils import log_to_db
 
 
 def parse_login():
@@ -21,3 +22,11 @@ def set_last_login_timestamp(username):
             """UPDATE users SET last_login = :date_timestamp WHERE username == :user""",
             {"date_timestamp": date_timestamp.isoformat(), "user": username},
         )
+
+    data = {
+        "message": f"{username} logged in",
+        "user_id": username,
+        "date_timestamp": date_timestamp.isoformat(),
+    }
+
+    log_to_db(data)

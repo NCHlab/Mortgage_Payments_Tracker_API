@@ -21,4 +21,6 @@ def login_endpoint():
 
 
 def get_login():
-    get_session()
+    username = get_session()
+
+    return {"message": f"Logged in as {username}"}
