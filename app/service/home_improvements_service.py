@@ -1,51 +1,50 @@
+from flask import abort
+
 from app.core.utils import (
     get_session,
-    parse_multi_db_data,
     log_to_db,
     parse_single_db_data,
 )
 from app.core.db import get_db
-from flask import abort
+from app.service.common import (
+    user_data_from_table,
+    all_user_data_from_table,
+    insert_to_table,
+)
 
 
 def single_user_home_improvements():
-
-    username = get_session()
-
-    c = get_db().cursor()
-    c.execute(
-        """SELECT * FROM home_improvements WHERE user_id == :user""", {"user": username}
-    )
-    data = c.fetchall()
-
-    if not data:
-        return []
-
-    list_of_payments = parse_multi_db_data(data)
-
-    return list_of_payments
+    return user_data_from_table("home_improvements")
 
 
 def all_user_home_improvements():
-
-    # Only using to validate user is authenticated
-    get_session()
-
-    c = get_db().cursor()
-    c.execute("""SELECT * FROM home_improvements""")
-    data = c.fetchall()
-
-    if not data:
-        return []
-
-    list_of_payments = parse_multi_db_data(data)
-
-    return list_of_payments
+    return all_user_data_from_table("home_improvements")
 
 
 def insert_home_improvements(body):
 
     username = get_session()
+
+    table_name = "home_improvements"
+    col_names = "user_id, paid, chargeable, date, reason"
+    placeholder = ":user_id, :paid, :chargeable, :date, :reason"
+    values = {
+        "user_id": username,
+        "paid": body["paid"],
+        "chargeable": body["chargeable"],
+        "date": body["date"],
+        "reason": body["reason"],
+    }
+    log_list = [
+        username,
+        body["paid"],
+        body["reason"],
+        body["date"],
+        body["chargeable"],
+    ]
+
+    insert_to_table(table_name, col_names, placeholder, values, log_list)
+    return
 
     con = get_db()
     with con:
