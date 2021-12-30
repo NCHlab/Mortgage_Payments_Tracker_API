@@ -416,7 +416,7 @@ components:
         reason:
           type: string
         from_tenant:
-          type: integer
+          type: boolean
       required:
         - paid
         - date
@@ -427,7 +427,7 @@ components:
           "paid": 100.0,
           "reason": "monthly",
           "date": "2021-12-29T13:59:13.538667",
-          "from_tenant": 0,
+          "from_tenant": false,
         }
     modify_payment:
       type: object
@@ -441,7 +441,7 @@ components:
         reason:
           type: string
         from_tenant:
-          type: integer
+          type: boolean
       required:
         - id
         - paid
@@ -454,7 +454,7 @@ components:
           "paid": 100.0,
           "reason": "monthly",
           "date": "2021-12-29T13:59:13.538667",
-          "from_tenant": 0,
+          "from_tenant": false,
         }
     get_payments:
       type: array
@@ -541,7 +541,7 @@ components:
         reason:
           type: string
         chargeable:
-          type: integer
+          type: boolean
       required:
         - paid
         - date
@@ -552,7 +552,7 @@ components:
           "paid": 100.0,
           "reason": "monthly",
           "date": "2021-12-29T13:59:13.538667",
-          "chargeable": 1,
+          "chargeable": true,
         }
     modify_home_improvement:
       type: object
@@ -566,7 +566,7 @@ components:
         reason:
           type: string
         chargeable:
-          type: integer
+          type: boolean
       required:
         - id
         - paid
@@ -579,7 +579,7 @@ components:
           "paid": 100.0,
           "reason": "monthly",
           "date": "2021-12-29T13:59:13.538667",
-          "chargeable": 1,
+          "chargeable": true,
         }
     get_home_improvements:
       type: array

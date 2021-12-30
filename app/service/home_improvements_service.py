@@ -30,15 +30,8 @@ def insert_home_improvements(body):
         "date": body["date"],
         "reason": body["reason"],
     }
-    log_list = [
-        username,
-        body["paid"],
-        body["reason"],
-        body["date"],
-        body["chargeable"],
-    ]
 
-    insert_to_table(table_name, col_names, placeholder, values, log_list)
+    insert_to_table(table_name, col_names, placeholder, values)
 
 
 def delete_home_improvements(id):

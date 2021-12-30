@@ -9,6 +9,9 @@ from flask import abort
 
 
 def get_from_table(table_name):
+    """
+    Retrieves all data for the currently logged in individual for the specified table name
+    """
 
     username = get_session()
 
@@ -27,6 +30,9 @@ def get_from_table(table_name):
 
 
 def get_all_from_table(table_name):
+    """
+    Retrieves all data for the specified table name
+    """
 
     # Using to validate user is authenticated
     get_session()
@@ -43,7 +49,11 @@ def get_all_from_table(table_name):
     return list_of_payments
 
 
-def insert_to_table(table_name, col_names, placeholder, values, log_list):
+def insert_to_table(table_name, col_names, placeholder, values):
+    """
+    Inserts a row into a table for the specified table name
+    """
+
     username = get_session()
 
     con = get_db()
@@ -54,13 +64,17 @@ def insert_to_table(table_name, col_names, placeholder, values, log_list):
 
     log_msg = {
         "message": f"Values inserted into {table_name} by {username}",
-        "values": log_list,
+        "values": values,
     }
 
     log_to_db(log_msg)
 
 
 def delete_from_table(_id, table_name):
+    """
+    Deletes a row from a table for the specified id
+    """
+
     username = get_session()
     con = get_db()
 
@@ -74,19 +88,21 @@ def delete_from_table(_id, table_name):
 
         con.execute(f"""DELETE FROM {table_name} WHERE id == :id""", {"id": _id})
 
-    data = parse_single_db_data(data)
-
-    log_list = list(data.items())
+    values = parse_single_db_data(data)
 
     log_msg = {
         "message": f"Values deleted from {table_name} by {username}",
-        "values": log_list,
+        "values": values,
     }
 
     log_to_db(log_msg)
 
 
 def update_table(_id, table_name, col_names_and_placeholder, values):
+    """
+    Retrieves current table values, and sets new data to that id
+    Logs both the previous and new values
+    """
 
     username = get_session()
     con = get_db()
@@ -103,13 +119,14 @@ def update_table(_id, table_name, col_names_and_placeholder, values):
             values,
         )
 
-    data = parse_single_db_data(data)
-    prev_vals = list(data.items())
+    prev_values = parse_single_db_data(data)
+
+    values["user_id"] = username
 
     log_msg = {
         "message": f"Values updated in home_improvements by {username}",
-        "prev_values": prev_vals,
-        "new_values": [("user_id", username)] + list(values.items()),
+        "prev_values": prev_values,
+        "new_values": values,
     }
 
     log_to_db(log_msg)
