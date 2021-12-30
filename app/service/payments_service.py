@@ -17,7 +17,7 @@ def single_user_payments():
     data = c.fetchall()
 
     if not data:
-        abort(404)
+        return []
 
     list_of_payments = parse_multi_db_data(data)
 
@@ -34,7 +34,7 @@ def all_user_payments():
     data = c.fetchall()
 
     if not data:
-        abort(404)
+        return []
 
     list_of_payments = parse_multi_db_data(data)
 

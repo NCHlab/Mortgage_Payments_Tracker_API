@@ -236,6 +236,120 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Api_401_Response"
+  /home_improvements:
+    get:
+      tags:
+        - Home Improvements
+      summary: Retrieve home improvements payments for a user
+      description: ""
+      operationId: get_home_improvement
+      x-openapi-router-controller: app.routes.home_improvements
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_home_improvements"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+    post:
+      tags:
+        - Home Improvements
+      summary: Submit an home improvement payment
+      description: ""
+      operationId: add_home_improvement
+      x-openapi-router-controller: app.routes.home_improvements
+      x-codegen-request-body-name: body
+      requestBody:
+        required: true
+        description: add_home_improvement object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/add_home_improvement"
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+    put:
+      tags:
+        - Home Improvements
+      summary: Update a home improvement payment
+      description: ""
+      operationId: modify_home_improvement
+      x-openapi-router-controller: app.routes.home_improvements
+      x-codegen-request-body-name: body
+      requestBody:
+        required: true
+        description: modify_home_improvement object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/modify_home_improvement"
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+  /home_improvements/{id}:
+    delete:
+      tags:
+        - Home Improvements
+      summary: Delete an home improvement payment
+      description: ""
+      operationId: remove_home_improvement
+      x-openapi-router-controller: app.routes.home_improvements
+      parameters:
+        - name: id
+          in: path
+          description: The id to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+  /home_improvements/all:
+    get:
+      tags:
+        - Home Improvements
+      summary: Retrieve home improvements for all users
+      description: ""
+      operationId: get_all_home_improvement
+      x-openapi-router-controller: app.routes.home_improvements
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_home_improvements"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_401_Response"
   /get_login:
     get:
       tags:
@@ -390,8 +504,6 @@ components:
           type: string
         reason:
           type: string
-        from_tenant:
-          type: integer
       required:
         - id
         - paid
@@ -405,6 +517,71 @@ components:
           "date": "2021-12-29T13:59:13.538667",
         }
     get_overpayments:
+      type: array
+      items:
+        properties:
+          user_id:
+            type: string
+          paid:
+            type: number
+            example: 120
+          date:
+            type: string
+            example: "2021-12-29T13:59:13.538667"
+          reason:
+            type: string
+            example: monthly payment
+    add_home_improvement:
+      type: object
+      properties:
+        paid:
+          type: number
+        date:
+          type: string
+        reason:
+          type: string
+        chargeable:
+          type: integer
+      required:
+        - paid
+        - date
+        - reason
+        - chargeable
+      example:
+        {
+          "paid": 100.0,
+          "reason": "monthly",
+          "date": "2021-12-29T13:59:13.538667",
+          "chargeable": 1,
+        }
+    modify_home_improvement:
+      type: object
+      properties:
+        id:
+          type: integer
+        paid:
+          type: number
+        date:
+          type: string
+        reason:
+          type: string
+        chargeable:
+          type: integer
+      required:
+        - id
+        - paid
+        - date
+        - reason
+        - chargeable
+      example:
+        {
+          "id": 1,
+          "paid": 100.0,
+          "reason": "monthly",
+          "date": "2021-12-29T13:59:13.538667",
+          "chargeable": 1,
+        }
+    get_home_improvements:
       type: array
       items:
         properties:
