@@ -57,28 +57,6 @@ c.execute(
         )"""
 )
 
-c.execute(
-    """CREATE TABLE tenants (
-        id TEXT PRIMARY KEY,
-        tenant_name TEXT,
-        current_tenant TEXT,
-        estate_agent TEXT,
-        rent_amount FLOAT,
-        date TEXT
-        )"""
-)
-
-
-c.execute(
-    """CREATE TABLE money_owed (
-        id INTEGER PRIMARY KEY,
-        debtor TEXT,
-        debtee TEXT,
-        FOREIGN KEY(debtor) REFERENCES users(username),
-        FOREIGN KEY(debtee) REFERENCES users(username)
-        )"""
-)
-
 
 c.execute(
     """CREATE TABLE money_repaid (
