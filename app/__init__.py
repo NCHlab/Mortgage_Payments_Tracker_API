@@ -1,4 +1,4 @@
-import os
+import os, sys
 import connexion
 from flask_cors import CORS
 from flask_session import Session
@@ -25,16 +25,15 @@ def create_app():
     except KeyError:
         OPENAPI_SPEC_PATH = "../openapi/"
 
-    # try:
-    #     MPT_DATABASE_PATH = os.environ["MPT_DATABASE_PATH"]
-    # except KeyError:
-    #     enter_db = input("Enter Database Path? (y/n): ")
-    #     if enter_db == "y" or enter_db == "yes":
-    #         MPT_DATABASE_PATH = input("MPT_DATABASE_PATH: ")
-    #     else:
-    #         print("ERROR: Database FILE NOT FOUND. 'MPT_DATABASE_PATH' not set")
-    #         sys.exit(1)
-    MPT_DATABASE_PATH = "/mnt/e/Projects/Mortgage_Payments_Tracker_API/app/database/"
+    try:
+        MPT_DATABASE_PATH = os.environ["MPT_DATABASE_PATH"]
+    except KeyError:
+        enter_db = input("Enter Database Path? (y/n): ")
+        if enter_db == "y" or enter_db == "yes":
+            MPT_DATABASE_PATH = input("MPT_DATABASE_PATH: ")
+        else:
+            print("ERROR: Database FILE NOT FOUND. 'MPT_DATABASE_PATH' not set")
+            sys.exit(1)
 
     try:
         MPT_SECRET_KEY = os.environ["MPT_SECRET_KEY"]
@@ -53,6 +52,8 @@ def create_app():
     app.app.config["SECRET_KEY"] = MPT_SECRET_KEY
     app.app.config["SESSION_TYPE"] = "filesystem"
     app.app.config["SESSION_FILE_DIR"] = "/tmp/flask_cache"
+    app.app.config["SESSION_COOKIE_SAMESITE"] = None
+    app.app.config["SESSION_COOKIE_SECURE"] = True
 
     Session(app.app)
     CORS(app.app, supports_credentials=True)
