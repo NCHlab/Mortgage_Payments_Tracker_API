@@ -414,6 +414,17 @@ paths:
       responses:
         204:
           description: No Content
+  /mortgage:
+    get:
+      tags:
+        - Mortgage
+      summary: Get Mortgage Information
+      description: Request
+      operationId: get_mortgage
+      x-openapi-router-controller: app.routes.mortgage
+      responses:
+        200:
+          description: Successful operation
 components:
   schemas:
     add_payment:
