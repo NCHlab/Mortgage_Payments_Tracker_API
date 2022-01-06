@@ -1,5 +1,6 @@
 from app.core.db import get_db
 from app.core.utils import parse_single_db_data
+from app.service.common import get_db_sum_payments
 
 
 def mortgage_info():
@@ -23,4 +24,14 @@ def mortgage_info():
 
     data = parse_single_db_data(data)
 
+    return data
+
+
+def aggregate_user_payments():
+
+    payments = get_db_sum_payments("payments")
+    overpayments = get_db_sum_payments("overpayments")
+    home_improvements = get_db_sum_payments("home_improvements")
+
+    data = {**payments, **overpayments, **home_improvements}
     return data

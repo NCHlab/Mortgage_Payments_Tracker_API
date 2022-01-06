@@ -63,11 +63,32 @@ c.execute(
         id INTEGER PRIMARY KEY,
         debtor_user_id TEXT,
         debtee_user_id TEXT,
-        paid_back FLOAT,
+        paid_back REAL,
         FOREIGN KEY(debtor_user_id) REFERENCES users(username),
         FOREIGN KEY(debtee_user_id) REFERENCES users(username)
         )"""
 )
+
+c.execute(
+    """CREATE TABLE mortgage (
+        provider TEXT PRIMARY KEY,
+        loan REAL,
+        interest_rate REAL,
+        period INTEGER,
+		start_period INTEGER,
+        date_added TEXT
+        )"""
+)
+
+c.execute(
+    """CREATE TABLE mortgage_balance (
+        balance REAL,
+        date_updated REAL,
+        provider TEXT,
+		FOREIGN KEY(provider) REFERENCES mortgage(provider)
+        )"""
+)
+
 
 conn.commit()
 conn.close()

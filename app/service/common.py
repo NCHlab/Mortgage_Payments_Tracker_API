@@ -133,3 +133,24 @@ def update_table(_id, table_name, col_names_and_placeholder, values):
     }
 
     log_to_db(log_msg)
+
+
+def get_db_sum_payments(table_name):
+
+    username = get_session()
+    con = get_db()
+
+    field_name = table_name
+
+    with con:
+        data = con.execute(
+            f"""SELECT sum(paid) as {field_name} FROM {table_name} WHERE user_id == :id""",
+            {"id": username},
+        ).fetchone()
+
+        if not data:
+            return {}
+
+    data = parse_single_db_data(data)
+
+    return data

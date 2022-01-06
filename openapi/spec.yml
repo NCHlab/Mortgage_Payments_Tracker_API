@@ -418,13 +418,32 @@ paths:
     get:
       tags:
         - Mortgage
-      summary: Get Mortgage Information
+      summary: Get General Mortgage Information
       description: Request
       operationId: get_mortgage
       x-openapi-router-controller: app.routes.mortgage
       responses:
         200:
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/mortgage_payload"
+  /aggregate:
+    get:
+      tags:
+        - Mortgage
+      summary: Get user aggregate payment data
+      description: Request
+      operationId: get_aggregate
+      x-openapi-router-controller: app.routes.mortgage
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/aggregate_payload"
 components:
   schemas:
     add_payment:
@@ -617,6 +636,48 @@ components:
           reason:
             type: string
             example: monthly payment
+    mortgage_payload:
+      type: object
+      properties:
+        balance:
+          type: number
+        date_updated:
+          type: string
+        interest_rate:
+          type: number
+        loan:
+          type: number
+        period:
+          type: integer
+        provider:
+          type: string
+        start_period:
+          type: integer
+      example:
+        {
+          "balance": 248123.15,
+          "date_updated": "2022-01-01T12:00:04.123456",
+          "interest_rate": 1.44,
+          "loan": 262000.01,
+          "period": 3,
+          "provider": "Barclays",
+          "start_period": 2022,
+        }
+    aggregate_payload:
+      type: object
+      properties:
+        payments:
+          type: number
+        overpayments:
+          type: number
+        home_improvements:
+          type: number
+      example:
+        {
+          "payments": 2500.50,
+          "overpayments": 450.00,
+          "home_improvements": 150.99,
+        }
     Api_200_Response:
       type: object
       properties:
