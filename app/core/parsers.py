@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 def parse_multi_db_data(data):
     """
     Converts sql.Row to Dict for processing
@@ -22,3 +25,10 @@ def parse_multi_db_data(data):
 
 def parse_single_db_data(data):
     return dict(data)
+
+
+def parse_filename(prefix, tablename, filetype):
+    time = datetime.now().strftime("%d-%m-%Y")
+    filename = f"{prefix}-{tablename}-{str(time)}.{filetype}"
+
+    return filename

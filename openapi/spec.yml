@@ -444,6 +444,78 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/aggregate_payload"
+  /download/{tablename}:
+    get:
+      parameters:
+        - name: tablename
+          in: path
+          description: The tablename
+          required: true
+          schema:
+            type: string
+      tags:
+        - Download
+      summary: Download an XLSX file of the request users data for the specified table
+      description: Request
+      operationId: get_download
+      x-openapi-router-controller: app.routes.download
+      responses:
+        200:
+          description: Successful operation
+  /download/all/{tablename}:
+    get:
+      parameters:
+        - name: tablename
+          in: path
+          description: The tablename
+          required: true
+          schema:
+            type: string
+      tags:
+        - Download
+      summary: Download an XLSX file containing 1 sheet per user for the specified table
+      description: Request
+      operationId: get_all_download
+      x-openapi-router-controller: app.routes.download
+      responses:
+        200:
+          description: Successful operation
+  /download/csv/{tablename}:
+    get:
+      parameters:
+        - name: tablename
+          in: path
+          description: The tablename
+          required: true
+          schema:
+            type: string
+      tags:
+        - Download
+      summary: Download a CSV formatted file of the users data for the specified table
+      description: Request
+      operationId: get_csv_download
+      x-openapi-router-controller: app.routes.download
+      responses:
+        200:
+          description: Successful operation
+  /download/csv/all/{tablename}:
+    get:
+      parameters:
+        - name: tablename
+          in: path
+          description: The tablename
+          required: true
+          schema:
+            type: string
+      tags:
+        - Download
+      summary: Download a CSV formatted file of all user data for the specified table
+      description: Request
+      operationId: get_csv_all_download
+      x-openapi-router-controller: app.routes.download
+      responses:
+        200:
+          description: Successful operation
 components:
   schemas:
     add_payment:
