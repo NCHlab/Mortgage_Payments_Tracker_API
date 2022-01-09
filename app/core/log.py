@@ -6,7 +6,7 @@ from app.core.db import get_db
 from app.core.session import get_session
 
 
-def log_to_db(data, table_name, state):
+def log_to_db(data: dict, table_name: str, state: str) -> None:
 
     username = get_session()
 

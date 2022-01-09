@@ -3,7 +3,7 @@ import secrets
 from app.core.db import get_user_info
 
 
-def validate_basic_auth(username, password):
+def validate_basic_auth(username: str, password: str) -> dict:
     user_info = None
 
     db_user, db_pass = get_user_info(username)

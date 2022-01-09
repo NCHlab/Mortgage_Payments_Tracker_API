@@ -1,3 +1,5 @@
+from typing import List
+
 from app.core.session import get_session
 from app.service.common import (
     get_from_table,
@@ -8,15 +10,15 @@ from app.service.common import (
 )
 
 
-def single_user_payments():
+def single_user_payments() -> List[dict]:
     return get_from_table("payments")
 
 
-def all_user_payments():
+def all_user_payments() -> List[dict]:
     return get_all_from_table("payments")
 
 
-def insert_payment(body):
+def insert_payment(body: dict) -> None:
 
     username = get_session()
 
@@ -34,13 +36,13 @@ def insert_payment(body):
     insert_to_table(table_name, col_names, placeholder, values)
 
 
-def delete_payment(id):
+def delete_payment(id: int) -> None:
 
     table_name = "payments"
     delete_from_table(id, table_name)
 
 
-def update_payment(body):
+def update_payment(body: dict) -> None:
 
     get_session()
 
@@ -49,6 +51,7 @@ def update_payment(body):
     col_names_and_placeholder = (
         "paid = :paid, date = :date, reason = :reason, from_tenant = :from_tenant"
     )
+
     values = {
         "paid": body["paid"],
         "date": body["date"],

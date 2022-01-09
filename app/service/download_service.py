@@ -4,7 +4,7 @@ from app.service.common import get_from_table, get_all_from_table
 from app.core.file_parser import csv_parser, xlsx_parser
 
 
-def download_single_user(tablename):
+def download_single_user(tablename: str) -> str:
     data = get_from_table(tablename)
     filename = parse_filename("single", tablename, "xlsx")
     xlsx_parser(data, filename)
@@ -12,7 +12,7 @@ def download_single_user(tablename):
     return filename
 
 
-def download_multi_user(tablename):
+def download_multi_user(tablename: str) -> str:
     data = get_all_from_table(tablename)
     filename = parse_filename("multi", tablename, "xlsx")
     xlsx_parser(data, filename, is_multi=True)
@@ -20,7 +20,7 @@ def download_multi_user(tablename):
     return filename
 
 
-def download_csv_single_user(tablename):
+def download_csv_single_user(tablename: str) -> str:
 
     data = get_from_table(tablename)
     filename = parse_filename("single", tablename, "csv")
@@ -29,7 +29,7 @@ def download_csv_single_user(tablename):
     return filename
 
 
-def download_csv_multi_user(tablename):
+def download_csv_multi_user(tablename: str) -> str:
 
     data = get_all_from_table(tablename)
     filename = parse_filename("multi", tablename, "csv")

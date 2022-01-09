@@ -1,13 +1,14 @@
+from typing import List, Type
 import pandas as pd
 
 
-def csv_parser(data, filename):
+def csv_parser(data: List[dict], filename: str) -> None:
 
     df = pd.DataFrame(data)
     df.to_csv(filename, index=False)
 
 
-def xlsx_parser(data, filename, is_multi=False):
+def xlsx_parser(data: List[dict], filename: str, is_multi: bool = False) -> None:
 
     writer = pd.ExcelWriter(filename, engine="openpyxl")
 
@@ -19,12 +20,12 @@ def xlsx_parser(data, filename, is_multi=False):
     writer.save()
 
 
-def xlsx_simple_parser(data, writer):
+def xlsx_simple_parser(data: dict, writer: Type[pd.ExcelWriter]):
     df = pd.DataFrame(data)
     df.to_excel(writer, sheet_name="data", index=False)
 
 
-def xlsx_complex_parser(data, writer):
+def xlsx_complex_parser(data: dict, writer: Type[pd.ExcelWriter]):
 
     list_of_users = []
 

@@ -3,7 +3,7 @@ from app.core.parsers import parse_single_db_data
 from app.service.common import get_db_sum_payments
 
 
-def mortgage_info():
+def mortgage_info() -> dict:
     c = get_db().cursor()
 
     c.execute(
@@ -27,7 +27,7 @@ def mortgage_info():
     return data
 
 
-def aggregate_user_payments():
+def aggregate_user_payments() -> dict:
 
     payments = get_db_sum_payments("payments")
     overpayments = get_db_sum_payments("overpayments")

@@ -1,3 +1,5 @@
+from typing import List
+
 from app.service.home_improvements_service import (
     single_user_home_improvements,
     all_user_home_improvements,
@@ -7,32 +9,32 @@ from app.service.home_improvements_service import (
 )
 
 
-def get_home_improvement():
+def get_home_improvement() -> List[dict]:
     """Retrieves all home_improvement for the current user"""
 
     response = single_user_home_improvements()
     return response
 
 
-def get_all_home_improvement():
+def get_all_home_improvement() -> List[dict]:
 
     response = all_user_home_improvements()
     return response
 
 
-def add_home_improvement(body):
+def add_home_improvement(body: dict) -> tuple:
 
     insert_home_improvements(body)
     return "", 204
 
 
-def remove_home_improvement(id):
+def remove_home_improvement(id: int) -> tuple:
 
     delete_home_improvements(id)
     return "", 204
 
 
-def modify_home_improvement(body):
+def modify_home_improvement(body: dict) -> tuple:
 
     update_home_improvements(body)
     return "", 204

@@ -1,7 +1,9 @@
+from typing import List, Type
 from datetime import datetime
+import sqlite3
 
 
-def parse_multi_db_data(data):
+def parse_multi_db_data(data: Type[sqlite3.Row]) -> List[dict]:
     """
     Converts sql.Row to Dict for processing
     Casts Boolean stored as Integers (SQLite3 limitation) as Boolean
@@ -23,7 +25,7 @@ def parse_multi_db_data(data):
     return list_of_data
 
 
-def parse_single_db_data(data):
+def parse_single_db_data(data) -> dict:
     return dict(data)
 
 

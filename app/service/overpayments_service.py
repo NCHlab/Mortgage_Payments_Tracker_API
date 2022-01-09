@@ -1,3 +1,5 @@
+from typing import List
+
 from app.core.session import get_session
 from app.service.common import (
     get_from_table,
@@ -8,15 +10,15 @@ from app.service.common import (
 )
 
 
-def single_user_overpayments():
+def single_user_overpayments() -> List[dict]:
     return get_from_table("overpayments")
 
 
-def all_user_overpayments():
+def all_user_overpayments() -> List[dict]:
     return get_all_from_table("overpayments")
 
 
-def insert_overpayment(body):
+def insert_overpayment(body: dict) -> None:
 
     username = get_session()
 
@@ -33,14 +35,14 @@ def insert_overpayment(body):
     insert_to_table(table_name, col_names, placeholder, values)
 
 
-def delete_overpayment(id):
+def delete_overpayment(id: int) -> None:
 
     table_name = "overpayments"
 
     delete_from_table(id, table_name)
 
 
-def update_overpayment(body):
+def update_overpayment(body: dict) -> None:
 
     get_session()
 

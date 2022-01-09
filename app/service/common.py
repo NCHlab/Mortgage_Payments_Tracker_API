@@ -1,4 +1,5 @@
 from flask import abort
+from typing import List
 
 from app.core.session import get_session
 from app.core.log import log_to_db
@@ -6,7 +7,7 @@ from app.core.parsers import parse_single_db_data, parse_multi_db_data
 from app.core.db import get_db
 
 
-def get_from_table(table_name):
+def get_from_table(table_name: str) -> List[dict]:
     """
     Retrieves all data for the currently logged in individual for the specified table name
     """
@@ -27,7 +28,7 @@ def get_from_table(table_name):
     return list_of_payments
 
 
-def get_all_from_table(table_name):
+def get_all_from_table(table_name: str) -> List[dict]:
     """
     Retrieves all data for the specified table name
     """
@@ -47,7 +48,7 @@ def get_all_from_table(table_name):
     return list_of_payments
 
 
-def insert_to_table(table_name, col_names, placeholder, values):
+def insert_to_table(table_name: str, col_names: str, placeholder: str, values: dict) -> None:
     """
     Inserts a row into a table for the specified table name
     """
@@ -69,7 +70,7 @@ def insert_to_table(table_name, col_names, placeholder, values):
     log_to_db(log_msg, table_name, "INSERT")
 
 
-def delete_from_table(_id, table_name):
+def delete_from_table(_id: int, table_name: str) -> None:
     """
     Deletes a row from a table for the specified id
     """
@@ -98,7 +99,7 @@ def delete_from_table(_id, table_name):
     log_to_db(log_msg, table_name, "DELETE")
 
 
-def update_table(_id, table_name, col_names_and_placeholder, values):
+def update_table(_id: int, table_name: str, col_names_and_placeholder: str, values: dict) -> None:
     """
     Retrieves current table values, and sets new data to that id
     Logs both the previous and new values
@@ -133,7 +134,7 @@ def update_table(_id, table_name, col_names_and_placeholder, values):
     log_to_db(log_msg, table_name, "UPDATE")
 
 
-def get_db_sum_payments(table_name):
+def get_db_sum_payments(table_name: str) -> dict:
 
     username = get_session()
     con = get_db()

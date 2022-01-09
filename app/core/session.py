@@ -1,7 +1,7 @@
 from flask import session, abort
 
 
-def get_session():
+def get_session() -> str:
     """
     Retrieves the user_id for the user accessing the session
     Works as an Authentication system to ensure their session is valid

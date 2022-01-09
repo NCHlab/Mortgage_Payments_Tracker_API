@@ -1,3 +1,5 @@
+from typing import List
+
 from app.core.session import get_session
 from app.service.common import (
     get_from_table,
@@ -8,15 +10,15 @@ from app.service.common import (
 )
 
 
-def single_user_home_improvements():
+def single_user_home_improvements() -> List[dict]:
     return get_from_table("home_improvements")
 
 
-def all_user_home_improvements():
+def all_user_home_improvements() -> List[dict]:
     return get_all_from_table("home_improvements")
 
 
-def insert_home_improvements(body):
+def insert_home_improvements(body: dict) -> None:
 
     username = get_session()
 
@@ -34,14 +36,13 @@ def insert_home_improvements(body):
     insert_to_table(table_name, col_names, placeholder, values)
 
 
-def delete_home_improvements(id):
+def delete_home_improvements(id: int) -> None:
 
     table_name = "home_improvements"
-
     delete_from_table(id, table_name)
 
 
-def update_home_improvements(body):
+def update_home_improvements(body: dict) -> None:
 
     get_session()
 
