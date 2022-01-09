@@ -41,7 +41,11 @@ c.execute(
     """CREATE TABLE logs (
         id INTEGER PRIMARY KEY,
         log TEXT,
-        date TEXT
+        user_id TEXT,
+        table_name TEXT,
+        state TEXT,
+        date TEXT,
+        FOREIGN KEY(user_id) REFERENCES users(username)
         )"""
 )
 

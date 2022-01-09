@@ -29,4 +29,4 @@ def set_last_login_timestamp(username):
         "date_timestamp": date_timestamp.isoformat(),
     }
 
-    log_to_db(data)
+    log_to_db(data, None, "LOGIN")

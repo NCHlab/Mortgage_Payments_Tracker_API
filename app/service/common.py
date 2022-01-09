@@ -66,7 +66,7 @@ def insert_to_table(table_name, col_names, placeholder, values):
         "values": values,
     }
 
-    log_to_db(log_msg)
+    log_to_db(log_msg, table_name, "INSERT")
 
 
 def delete_from_table(_id, table_name):
@@ -95,7 +95,7 @@ def delete_from_table(_id, table_name):
         "values": values,
     }
 
-    log_to_db(log_msg)
+    log_to_db(log_msg, table_name, "DELETE")
 
 
 def update_table(_id, table_name, col_names_and_placeholder, values):
@@ -130,7 +130,7 @@ def update_table(_id, table_name, col_names_and_placeholder, values):
         "new_values": values,
     }
 
-    log_to_db(log_msg)
+    log_to_db(log_msg, table_name, "UPDATE")
 
 
 def get_db_sum_payments(table_name):
