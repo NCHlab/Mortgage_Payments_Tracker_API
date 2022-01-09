@@ -1,11 +1,9 @@
-from app.core.utils import (
-    get_session,
-    log_to_db,
-    parse_single_db_data,
-    parse_multi_db_data,
-)
-from app.core.db import get_db
 from flask import abort
+
+from app.core.session import get_session
+from app.core.log import log_to_db
+from app.core.parsers import parse_single_db_data, parse_multi_db_data
+from app.core.db import get_db
 
 
 def get_from_table(table_name):

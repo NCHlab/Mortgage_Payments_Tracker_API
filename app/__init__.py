@@ -15,6 +15,18 @@ from app.core.error_handlers import (
     method_not_allowed_405,
 )
 
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
+
+stdout_handler = logging.StreamHandler(sys.stdout)
+stdout_handler.setLevel(logging.DEBUG)
+stdout_handler.setFormatter(formatter)
+
+logger.addHandler(stdout_handler)
+
 
 def create_app():
 
@@ -23,6 +35,8 @@ def create_app():
     try:
         OPENAPI_SPEC_PATH = os.environ["OPENAPI_SPEC_PATH"]
     except KeyError:
+        # logger.error("OPEN API Spec not found, 'OPENAPI_SPEC_PATH' not set.")
+        # sys.exit(1)
         OPENAPI_SPEC_PATH = "../openapi/"
 
     # try:
@@ -32,7 +46,7 @@ def create_app():
     #     if enter_db == "y" or enter_db == "yes":
     #         MPT_DATABASE_PATH = input("MPT_DATABASE_PATH: ")
     #     else:
-    #         print("ERROR: Database FILE NOT FOUND. 'MPT_DATABASE_PATH' not set")
+    #         logger.error("Database FILE NOT FOUND. 'MPT_DATABASE_PATH' not set")
     #         sys.exit(1)
 
     MPT_DATABASE_PATH = "/mnt/e/Projects/Mortgage_Payments_Tracker_API/app/database/"
@@ -40,6 +54,8 @@ def create_app():
     try:
         MPT_SECRET_KEY = os.environ["MPT_SECRET_KEY"]
     except KeyError:
+        # logger.error("Session Secret Key not found, 'MPT_SECRET_KEY' not set.")
+        # sys.exit(1)
         MPT_SECRET_KEY = "MyPassword"
 
     config.MPT_DATABASE_PATH = MPT_DATABASE_PATH
@@ -53,7 +69,7 @@ def create_app():
 
     app.app.config["SECRET_KEY"] = MPT_SECRET_KEY
     app.app.config["SESSION_TYPE"] = "filesystem"
-    app.app.config["SESSION_FILE_DIR"] = "/tmp/flask_cache"
+    app.app.config["SESSION_FILE_DIR"] = "/tmp/mpt_flask_cache"
     app.app.config["SESSION_COOKIE_SAMESITE"] = None
     app.app.config["SESSION_COOKIE_SECURE"] = False
 

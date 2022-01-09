@@ -1,4 +1,4 @@
-from app.core.utils import get_session
+from app.core.session import get_session
 from app.service.mortgage_service import mortgage_info, aggregate_user_payments
 
 

@@ -1,5 +1,5 @@
 from app.core.db import get_db
-from app.core.utils import parse_single_db_data
+from app.core.parsers import parse_single_db_data
 from app.service.common import get_db_sum_payments
 
 

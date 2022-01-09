@@ -1,4 +1,4 @@
-from app.core.utils import get_session
+from app.core.session import get_session
 from app.service.common import (
     get_from_table,
     get_all_from_table,

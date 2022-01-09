@@ -1,6 +1,6 @@
 from flask import session
 
-from app.core.utils import get_session
+from app.core.session import get_session
 
 
 def logout_endpoint():
