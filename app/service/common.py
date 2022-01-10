@@ -48,7 +48,9 @@ def get_all_from_table(table_name: str) -> List[dict]:
     return list_of_payments
 
 
-def insert_to_table(table_name: str, col_names: str, placeholder: str, values: dict) -> None:
+def insert_to_table(
+    table_name: str, col_names: str, placeholder: str, values: dict
+) -> None:
     """
     Inserts a row into a table for the specified table name
     """
@@ -99,7 +101,9 @@ def delete_from_table(_id: int, table_name: str) -> None:
     log_to_db(log_msg, table_name, "DELETE")
 
 
-def update_table(_id: int, table_name: str, col_names_and_placeholder: str, values: dict) -> None:
+def update_table(
+    _id: int, table_name: str, col_names_and_placeholder: str, values: dict
+) -> None:
     """
     Retrieves current table values, and sets new data to that id
     Logs both the previous and new values
@@ -151,5 +155,31 @@ def get_db_sum_payments(table_name: str) -> dict:
             return {}
 
     data = parse_single_db_data(data)
+
+    return data
+
+
+def get_custom_query(query: str) -> List[dict]:
+    get_session()
+
+    c = get_db().cursor()
+    c.execute(query)
+    data = c.fetchall()
+
+    if not data:
+        return []
+
+    list_of_data = parse_multi_db_data(data)
+
+    return list_of_data
+
+
+def strip_out_field(data, field):
+
+    for obj in data:
+        try:
+            del obj[field]
+        except KeyError:
+            continue
 
     return data

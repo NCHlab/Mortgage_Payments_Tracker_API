@@ -516,6 +516,80 @@ paths:
       responses:
         200:
           description: Successful operation
+  /logs/payment:
+    get:
+      tags:
+        - Logs
+      summary: Retrieve Logs saved in the database
+      description: Request
+      operationId: get_payment_logs
+      x-openapi-router-controller: app.routes.db_logs
+      parameters:
+        - name: tablename
+          in: query
+          description: The tablename
+          style: form
+          explode: true
+          required: true
+          schema:
+            type: string
+        - name: state
+          in: query
+          description: Action State
+          required: true
+          schema:
+            type: string
+        - name: less_than
+          in: query
+          description: less than
+          required: false
+          schema:
+            type: boolean
+        - name: date
+          in: query
+          description: date
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: limit
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful operation
+  /logs/login:
+    get:
+      tags:
+        - Logs
+      summary: Retrieve Logs saved in the database
+      description: Request
+      operationId: get_login_logs
+      x-openapi-router-controller: app.routes.db_logs
+      parameters:
+        - name: less_than
+          in: query
+          description: less than
+          required: false
+          schema:
+            type: boolean
+        - name: date
+          in: query
+          description: date
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: limit
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful operation
 components:
   schemas:
     add_payment:
