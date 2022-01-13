@@ -2,6 +2,9 @@
 
 ```bash
 # For Local Dev work:
+# Use pyenv + virtualwrapper to create an env
+
+pyenv activate <name-of-env>
 pip install -e <path_to_package>
 ```
 

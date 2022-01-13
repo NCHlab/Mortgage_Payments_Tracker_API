@@ -50,18 +50,18 @@ def get_all_from_table(table_name: str) -> List[dict]:
 
 def insert_to_table(
     table_name: str, col_names: str, placeholder: str, values: dict
-) -> None:
+) -> dict:
     """
     Inserts a row into a table for the specified table name
     """
 
     username = get_session()
 
-    con = get_db()
-    with con:
-        con.execute(
-            f"""INSERT INTO {table_name} ({col_names}) VALUES ({placeholder})""", values
-        )
+    c = get_db().cursor()
+    c.execute(
+        f"""INSERT INTO {table_name} ({col_names}) VALUES ({placeholder})""", values
+    )
+    last_id = c.lastrowid
 
     log_msg = {
         "message": f"Values inserted into {table_name} by {username}",
@@ -70,6 +70,8 @@ def insert_to_table(
     }
 
     log_to_db(log_msg, table_name, "INSERT")
+
+    return {"id": last_id, **values}
 
 
 def delete_from_table(_id: int, table_name: str) -> None:

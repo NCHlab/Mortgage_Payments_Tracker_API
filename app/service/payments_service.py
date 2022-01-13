@@ -18,7 +18,7 @@ def all_user_payments() -> List[dict]:
     return get_all_from_table("payments")
 
 
-def insert_payment(body: dict) -> None:
+def insert_payment(body: dict) -> dict:
 
     username = get_session()
 
@@ -33,7 +33,9 @@ def insert_payment(body: dict) -> None:
         "from_tenant": body["from_tenant"],
     }
 
-    insert_to_table(table_name, col_names, placeholder, values)
+    data_inserted = insert_to_table(table_name, col_names, placeholder, values)
+
+    return data_inserted
 
 
 def delete_payment(id: int) -> None:

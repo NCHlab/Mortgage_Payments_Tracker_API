@@ -24,8 +24,8 @@ def get_all_payments() -> List[dict]:
 
 def add_payment(body: dict) -> tuple:
 
-    insert_payment(body)
-    return "", 204
+    response = insert_payment(body)
+    return response, 201
 
 
 def remove_payment(id: int) -> tuple:
