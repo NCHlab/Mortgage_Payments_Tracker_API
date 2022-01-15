@@ -51,8 +51,12 @@ paths:
             schema:
               $ref: "#/components/schemas/add_payment"
       responses:
-        204:
+        201:
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post_Payment_Response"
         401:
           description: Not Authenticated
           content:
@@ -165,8 +169,12 @@ paths:
             schema:
               $ref: "#/components/schemas/add_overpayment"
       responses:
-        204:
+        201:
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post_Payment_Response"
         401:
           description: Not Authenticated
           content:
@@ -279,8 +287,12 @@ paths:
             schema:
               $ref: "#/components/schemas/add_home_improvement"
       responses:
-        204:
+        201:
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/modify_home_improvement"
         401:
           description: Not Authenticated
           content:
@@ -823,6 +835,33 @@ components:
           "payments": 2500.50,
           "overpayments": 450.00,
           "home_improvements": 150.99,
+        }
+    Post_Payment_Response:
+      type: object
+      properties:
+        id:
+          type: integer
+        paid:
+          type: number
+        date:
+          type: string
+        reason:
+          type: string
+        from_tenant:
+          type: boolean
+      required:
+        - id
+        - paid
+        - date
+        - reason
+        - from_tenant
+      example:
+        {
+          "id": 1,
+          "paid": 100.0,
+          "reason": "monthly",
+          "date": "2021-12-29T13:59:13.538667",
+          "from_tenant": false,
         }
     Api_200_Response:
       type: object

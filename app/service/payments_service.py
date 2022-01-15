@@ -33,9 +33,9 @@ def insert_payment(body: dict) -> dict:
         "from_tenant": body["from_tenant"],
     }
 
-    data_inserted = insert_to_table(table_name, col_names, placeholder, values)
+    inserted_data = insert_to_table(table_name, col_names, placeholder, values)
 
-    return data_inserted
+    return inserted_data
 
 
 def delete_payment(id: int) -> None:

@@ -24,8 +24,8 @@ def get_all_home_improvement() -> List[dict]:
 
 def add_home_improvement(body: dict) -> tuple:
 
-    insert_home_improvements(body)
-    return "", 204
+    response = insert_home_improvements(body)
+    return response, 201
 
 
 def remove_home_improvement(id: int) -> tuple:

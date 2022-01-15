@@ -24,8 +24,8 @@ def get_all_overpayments() -> List[dict]:
 
 def add_overpayment(body: dict) -> tuple:
 
-    insert_overpayment(body)
-    return "", 204
+    response = insert_overpayment(body)
+    return response, 201
 
 
 def remove_overpayment(id: int) -> tuple:

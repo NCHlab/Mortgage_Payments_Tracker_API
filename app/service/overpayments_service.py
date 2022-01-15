@@ -32,7 +32,9 @@ def insert_overpayment(body: dict) -> None:
         "reason": body["reason"],
     }
 
-    insert_to_table(table_name, col_names, placeholder, values)
+    inserted_data = insert_to_table(table_name, col_names, placeholder, values)
+
+    return inserted_data
 
 
 def delete_overpayment(id: int) -> None:
