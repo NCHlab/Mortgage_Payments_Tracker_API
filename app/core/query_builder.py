@@ -39,6 +39,8 @@ def date_limit_builder(query: str, less_than: bool, date: str, limit: str):
     else:
         query += f'AND date >= "{date}" '
 
+    query += f"ORDER BY date DESC "
+
     query += f"LIMIT {limit}"
 
     return query
