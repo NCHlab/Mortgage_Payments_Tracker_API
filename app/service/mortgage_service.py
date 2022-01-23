@@ -1,6 +1,8 @@
+from typing import List
+
 from app.core.db import get_db
 from app.core.parsers import parse_single_db_data
-from app.service.common import get_db_sum_payments
+from app.service.common import get_db_sum_payments, get_all_users
 
 
 def mortgage_info() -> dict:
@@ -34,4 +36,21 @@ def aggregate_user_payments() -> dict:
     home_improvements = get_db_sum_payments("home_improvements")
 
     data = {**payments, **overpayments, **home_improvements}
+    return data
+
+
+def aggregate_all_user_payments() -> List[dict]:
+
+    all_users = get_all_users()
+
+    data = []
+
+    for user in all_users:
+        payments = get_db_sum_payments("payments", user["username"])
+        overpayments = get_db_sum_payments("overpayments", user["username"])
+        home_improvements = get_db_sum_payments("home_improvements", user["username"])
+
+        single_user_data = {**payments, **overpayments, **home_improvements}
+        data.append({user["username"]: single_user_data})
+
     return data

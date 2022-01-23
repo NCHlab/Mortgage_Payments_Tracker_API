@@ -456,6 +456,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/aggregate_payload"
+  /aggregate/all:
+    get:
+      tags:
+        - Mortgage
+      summary: Get All user aggregate payment data
+      description: Request
+      operationId: get_all_aggregate
+      x-openapi-router-controller: app.routes.mortgage
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/aggregate_all_payload"
   /download/{tablename}:
     get:
       parameters:
@@ -836,6 +851,31 @@ components:
           "overpayments": 450.00,
           "home_improvements": 150.99,
         }
+    aggregate_all_payload:
+      type: array
+      items:
+        type: object
+        properties:
+          username:
+            type: object
+            properties:
+              payments:
+                type: number
+              overpayments:
+                type: number
+              home_improvements:
+                type: number
+      example:
+        [
+          {
+            "username":
+              {
+                "payments": 2500.50,
+                "overpayments": 450.00,
+                "home_improvements": 150.99,
+              },
+          },
+        ]
     Post_Payment_Response:
       type: object
       properties:

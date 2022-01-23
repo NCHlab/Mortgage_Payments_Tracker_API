@@ -140,9 +140,12 @@ def update_table(
     log_to_db(log_msg, table_name, "UPDATE")
 
 
-def get_db_sum_payments(table_name: str) -> dict:
+def get_db_sum_payments(table_name: str, username=None) -> dict:
 
-    username = get_session()
+    session_username = get_session()
+    if not username:
+        username = session_username
+
     con = get_db()
 
     field_name = table_name
@@ -159,6 +162,20 @@ def get_db_sum_payments(table_name: str) -> dict:
     data = parse_single_db_data(data)
 
     return data
+
+
+def get_all_users():
+
+    c = get_db().cursor()
+    c.execute("""SELECT username FROM users;""")
+    data = c.fetchall()
+
+    if not data:
+        return []
+
+    list_of_data = parse_multi_db_data(data)
+
+    return list_of_data
 
 
 def get_custom_query(query: str) -> List[dict]:
