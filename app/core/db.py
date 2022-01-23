@@ -25,7 +25,7 @@ def close_connection(exception):
 def get_user_info(username: str) -> Type[sqlite3.Row]:
     c = get_db().cursor()
     c.execute(
-        "SELECT username, password FROM users WHERE username == :user",
+        "SELECT username, password, login_attempt, locked FROM users WHERE username == :user",
         {"user": username},
     )
 
@@ -34,3 +34,13 @@ def get_user_info(username: str) -> Type[sqlite3.Row]:
         abort(401)
 
     return data
+
+
+def set_user_info(username, attempts, locked):
+    con = get_db()
+
+    with con:
+        con.execute(
+            "UPDATE users SET login_attempt = :login_attempt, locked = :locked WHERE username == :user",
+            {"user": username, "login_attempt": attempts, "locked": locked},
+        )
