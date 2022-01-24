@@ -7,7 +7,9 @@ c.execute(
     """CREATE TABLE users (
         username TEXT PRIMARY KEY,
         password PASSWORD,
-        last_login TEXT 
+        last_login TEXT,
+        login_attempt INTEGER,
+        locked INTEGER
         )"""
 )
 

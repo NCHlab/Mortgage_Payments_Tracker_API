@@ -6,6 +6,7 @@ from app.service.download_service import (
     download_multi_user,
     download_csv_single_user,
     download_csv_multi_user,
+    download_combined,
 )
 from flask import send_file
 
@@ -36,3 +37,12 @@ def get_csv_all_download(tablename: str) -> TextIO:
     filename = download_csv_multi_user(tablename)
 
     return send_file(filename)
+
+
+def get_combined_all_download():
+    get_session()
+    filename = download_combined()
+
+    return filename
+
+    # return send_file(filename)

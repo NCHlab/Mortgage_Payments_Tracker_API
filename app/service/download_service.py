@@ -1,7 +1,7 @@
 from app.core.session import get_session
 from app.core.parsers import parse_filename
 from app.service.common import get_from_table, get_all_from_table
-from app.core.file_parser import csv_parser, xlsx_parser
+from app.core.file_parser import csv_parser, xlsx_parser, xlsx_combined_parser
 
 
 def download_single_user(tablename: str) -> str:
@@ -36,3 +36,16 @@ def download_csv_multi_user(tablename: str) -> str:
     csv_parser(data, filename)
 
     return filename
+
+
+def download_combined():
+
+    payments = get_all_from_table("payments")
+    overpayments = get_all_from_table("overpayments")
+    home_improvements = get_all_from_table("home_improvements")
+
+    payment_information = [payments, overpayments, home_improvements]
+
+    resp = xlsx_combined_parser(payment_information)
+
+    return resp

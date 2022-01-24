@@ -543,6 +543,17 @@ paths:
       responses:
         200:
           description: Successful operation
+  /download/combined/all:
+    get:
+      tags:
+        - Download
+      summary: Download an XLSX file containing every user using 1 sheet per table
+      description: Request
+      operationId: get_combined_all_download
+      x-openapi-router-controller: app.routes.download
+      responses:
+        200:
+          description: Successful operation
   /logs/payment:
     get:
       tags:
