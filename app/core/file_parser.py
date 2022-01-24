@@ -67,6 +67,18 @@ def multiple_dfs(df_list, sheets, spaces, writer):
         row = row + len(dataframe.index) + spaces + 1
 
 
+def calc_total_sum(data):
+    total = 0
+
+    for e, i in enumerate(data):
+        for x in i:
+            total += x["paid"]
+        data[e].append({"id": "", "user_id": "Total", "paid": total})
+        total = 0
+
+    return data
+
+
 def xlsx_combined_parser(data_list):
 
     sheet_data = []
@@ -78,13 +90,14 @@ def xlsx_combined_parser(data_list):
 
     # data_dict is unordered, xlsx_complex_parser returns data ordered by name
     for data_dict in data_list:
-        list_sheet_data_by_name, _ = xlsx_complex_parser(data_dict)
-        sheet_data.append(list_sheet_data_by_name)
+        data_by_name, _ = xlsx_complex_parser(data_dict)  # Output List of dict by name
+        data_by_name_with_total = calc_total_sum(data_by_name)
+        sheet_data.append(data_by_name_with_total)
 
     dfs = []
 
-    for e, list_sheet_data_by_name in enumerate(sheet_data):
-        for data in list_sheet_data_by_name:
+    for e, data_by_name_with_total in enumerate(sheet_data):
+        for data in data_by_name_with_total:
             dfs.append(pd.DataFrame(data))
 
         multiple_dfs(dfs, sheet_names[e], 2, writer)
