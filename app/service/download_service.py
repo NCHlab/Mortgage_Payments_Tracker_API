@@ -38,7 +38,7 @@ def download_csv_multi_user(tablename: str) -> str:
     return filename
 
 
-def download_combined():
+def download_combined() -> str:
 
     payments = get_all_from_table("payments")
     overpayments = get_all_from_table("overpayments")
@@ -46,6 +46,6 @@ def download_combined():
 
     payment_information = [payments, overpayments, home_improvements]
 
-    resp = xlsx_combined_parser(payment_information)
+    filename = xlsx_combined_parser(payment_information)
 
-    return resp
+    return filename

@@ -39,10 +39,8 @@ def get_csv_all_download(tablename: str) -> TextIO:
     return send_file(filename)
 
 
-def get_combined_all_download():
+def get_combined_all_download() -> TextIO:
     get_session()
     filename = download_combined()
 
-    return filename
-
-    # return send_file(filename)
+    return send_file(filename)

@@ -50,7 +50,9 @@ def xlsx_complex_parser(data: dict):
     return list_of_sheet_data, list_of_users
 
 
-def list_to_df_xlsx(writer: Type[pd.ExcelWriter], list_of_sheet_data, list_of_users):
+def list_to_df_xlsx(
+    writer: Type[pd.ExcelWriter], list_of_sheet_data: list, list_of_users: list
+):
     df = []
     for data in list_of_sheet_data:
         df.append(pd.DataFrame(data))
@@ -59,7 +61,9 @@ def list_to_df_xlsx(writer: Type[pd.ExcelWriter], list_of_sheet_data, list_of_us
         dataframe.to_excel(writer, sheet_name=list_of_users[idx], index=False)
 
 
-def multiple_dfs(df_list, sheets, spaces, writer):
+def multiple_dfs(
+    df_list: list, sheets: str, spaces: int, writer: Type[pd.ExcelWriter]
+) -> None:
 
     row = 0
     for dataframe in df_list:
@@ -67,7 +71,7 @@ def multiple_dfs(df_list, sheets, spaces, writer):
         row = row + len(dataframe.index) + spaces + 1
 
 
-def calc_total_sum(data):
+def calc_total_sum(data: List[dict]) -> List[dict]:
     total = 0
 
     for e, i in enumerate(data):
@@ -79,14 +83,16 @@ def calc_total_sum(data):
     return data
 
 
-def xlsx_combined_parser(data_list):
+def xlsx_combined_parser(data_list: List[dict]) -> str:
 
     sheet_data = []
     sheet_names = ["payments", "overpayments", "home_improvements"]
 
     date = str(datetime.now().isoformat())
 
-    writer = pd.ExcelWriter(f"User_Totals-{date[0:10]}.xlsx", engine="openpyxl")
+    filename = f"User_Totals-{date[0:10]}.xlsx"
+
+    writer = pd.ExcelWriter(f"{filename}", engine="openpyxl")
 
     # data_dict is unordered, xlsx_complex_parser returns data ordered by name
     for data_dict in data_list:
@@ -105,4 +111,4 @@ def xlsx_combined_parser(data_list):
 
     writer.save()
 
-    return sheet_data
+    return filename
