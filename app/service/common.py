@@ -66,7 +66,7 @@ def insert_to_table(
     log_msg = {
         "message": f"Values inserted into {table_name} by {username}",
         "state": "INSERT",
-        "values": values,
+        "new_values": values,
     }
 
     log_to_db(log_msg, table_name, "INSERT")
@@ -97,7 +97,7 @@ def delete_from_table(_id: int, table_name: str) -> None:
     log_msg = {
         "message": f"Values deleted from {table_name} by {username}",
         "state": "DELETE",
-        "values": values,
+        "prev_values": values,
     }
 
     log_to_db(log_msg, table_name, "DELETE")
