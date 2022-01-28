@@ -1,159 +1,64 @@
-from app.core.utils import (
-    get_session,
-    parse_multi_db_data,
-    log_to_db,
-    parse_single_db_data,
+from typing import List
+
+from app.core.session import get_session
+from app.service.common import (
+    get_from_table,
+    get_all_from_table,
+    insert_to_table,
+    delete_from_table,
+    update_table,
 )
-from app.core.db import get_db
-from flask import abort
 
 
-def single_user_home_improvements():
+def single_user_home_improvements() -> List[dict]:
+    return get_from_table("home_improvements")
+
+
+def all_user_home_improvements() -> List[dict]:
+    return get_all_from_table("home_improvements")
+
+
+def insert_home_improvements(body: dict) -> None:
 
     username = get_session()
 
-    c = get_db().cursor()
-    c.execute(
-        """SELECT * FROM home_improvements WHERE user_id == :user""", {"user": username}
-    )
-    data = c.fetchall()
+    table_name = "home_improvements"
+    col_names = "user_id, paid, chargeable, date, reason"
+    placeholder = ":user_id, :paid, :chargeable, :date, :reason"
+    values = {
+        "user_id": username,
+        "paid": body["paid"],
+        "chargeable": body["chargeable"],
+        "date": body["date"],
+        "reason": body["reason"],
+    }
 
-    if not data:
-        return []
+    inserted_data = insert_to_table(table_name, col_names, placeholder, values)
 
-    list_of_payments = parse_multi_db_data(data)
-
-    return list_of_payments
+    return inserted_data
 
 
-def all_user_home_improvements():
+def delete_home_improvements(id: int) -> None:
 
-    # Only using to validate user is authenticated
+    table_name = "home_improvements"
+    delete_from_table(id, table_name)
+
+
+def update_home_improvements(body: dict) -> None:
+
     get_session()
 
-    c = get_db().cursor()
-    c.execute("""SELECT * FROM home_improvements""")
-    data = c.fetchall()
-
-    if not data:
-        return []
-
-    list_of_payments = parse_multi_db_data(data)
-
-    return list_of_payments
-
-
-def insert_home_improvements(body):
-
-    username = get_session()
-
-    con = get_db()
-    with con:
-        con.execute(
-            """INSERT INTO home_improvements 
-        (user_id, paid, chargeable, date, reason) 
-        VALUES 
-        (:user_id, :paid, :chargeable, :date, :reason)""",
-            {
-                "user_id": username,
-                "paid": body["paid"],
-                "chargeable": body["chargeable"],
-                "date": body["date"],
-                "reason": body["reason"],
-            },
-        )
-
-    log_msg = {
-        "message": f"Values inserted into home_improvements by {username}",
-        "values": [
-            username,
-            body["paid"],
-            body["reason"],
-            body["date"],
-            body["chargeable"],
-        ],
+    _id = body["id"]
+    table_name = "home_improvements"
+    col_names_and_placeholder = (
+        "paid = :paid, date = :date, reason = :reason, chargeable = :chargeable"
+    )
+    values = {
+        "paid": body["paid"],
+        "date": body["date"],
+        "reason": body["reason"],
+        "chargeable": body["chargeable"],
+        "id": body["id"],
     }
 
-    log_to_db(log_msg)
-
-
-def delete_home_improvements(id):
-    username = get_session()
-    con = get_db()
-
-    with con:
-        data = con.execute(
-            """SELECT * FROM home_improvements WHERE id == :id""", {"id": id}
-        ).fetchone()
-
-        if not data:
-            abort(404)
-
-        con.execute("""DELETE FROM home_improvements WHERE id == :id""", {"id": id})
-
-    data = parse_single_db_data(data)
-
-    log_msg = {
-        "message": f"Values Deleted from home_improvements by {username}",
-        "values": [
-            username,
-            data["paid"],
-            data["reason"],
-            data["date"],
-            data["chargeable"],
-        ],
-    }
-
-    log_to_db(log_msg)
-
-
-def update_home_improvements(body):
-
-    username = get_session()
-    con = get_db()
-    with con:
-        data = con.execute(
-            """SELECT * FROM home_improvements WHERE id == :id""", {"id": body["id"]}
-        ).fetchone()
-
-        if not data:
-            abort(404)
-
-        con.execute(
-            """UPDATE home_improvements
-        SET 
-        paid = :paid,
-        date = :date,
-        reason = :reason,
-        chargeable = :chargeable
-        WHERE id == :id""",
-            {
-                "paid": body["paid"],
-                "date": body["date"],
-                "reason": body["reason"],
-                "chargeable": body["chargeable"],
-                "id": body["id"],
-            },
-        )
-
-    data = parse_single_db_data(data)
-
-    log_msg = {
-        "message": f"Values updated in home_improvements by {username}",
-        "prev_values": [
-            username,
-            data["paid"],
-            data["reason"],
-            data["date"],
-            data["chargeable"],
-        ],
-        "new_values": [
-            username,
-            body["paid"],
-            body["reason"],
-            body["date"],
-            body["chargeable"],
-        ],
-    }
-
-    log_to_db(log_msg)
+    update_table(_id, table_name, col_names_and_placeholder, values)

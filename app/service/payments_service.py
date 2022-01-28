@@ -1,157 +1,65 @@
-from app.core.utils import (
-    get_session,
-    parse_multi_db_data,
-    log_to_db,
-    parse_single_db_data,
+from typing import List
+
+from app.core.session import get_session
+from app.service.common import (
+    get_from_table,
+    get_all_from_table,
+    insert_to_table,
+    delete_from_table,
+    update_table,
 )
-from app.core.db import get_db
-from flask import abort
 
 
-def single_user_payments():
+def single_user_payments() -> List[dict]:
+    return get_from_table("payments")
+
+
+def all_user_payments() -> List[dict]:
+    return get_all_from_table("payments")
+
+
+def insert_payment(body: dict) -> dict:
 
     username = get_session()
 
-    c = get_db().cursor()
-    c.execute("""SELECT * FROM payments WHERE user_id == :user""", {"user": username})
-    data = c.fetchall()
+    table_name = "payments"
+    col_names = "user_id, paid, date, reason, from_tenant"
+    placeholder = ":user_id, :paid, :date, :reason, :from_tenant"
+    values = {
+        "user_id": username,
+        "paid": body["paid"],
+        "date": body["date"],
+        "reason": body["reason"],
+        "from_tenant": body["from_tenant"],
+    }
 
-    if not data:
-        return []
+    inserted_data = insert_to_table(table_name, col_names, placeholder, values)
 
-    list_of_payments = parse_multi_db_data(data)
-
-    return list_of_payments
+    return inserted_data
 
 
-def all_user_payments():
+def delete_payment(id: int) -> None:
 
-    # Only using to validate user is authenticated
+    table_name = "payments"
+    delete_from_table(id, table_name)
+
+
+def update_payment(body: dict) -> None:
+
     get_session()
 
-    c = get_db().cursor()
-    c.execute("""SELECT * FROM payments""")
-    data = c.fetchall()
+    _id = body["id"]
+    table_name = "payments"
+    col_names_and_placeholder = (
+        "paid = :paid, date = :date, reason = :reason, from_tenant = :from_tenant"
+    )
 
-    if not data:
-        return []
-
-    list_of_payments = parse_multi_db_data(data)
-
-    return list_of_payments
-
-
-def insert_payment(body):
-
-    username = get_session()
-
-    con = get_db()
-    with con:
-        con.execute(
-            """INSERT INTO payments 
-        (user_id, paid, date, reason, from_tenant) 
-        VALUES 
-        (:user_id, :paid, :date, :reason, :from_tenant)""",
-            {
-                "user_id": username,
-                "paid": body["paid"],
-                "date": body["date"],
-                "reason": body["reason"],
-                "from_tenant": body["from_tenant"],
-            },
-        )
-
-    log_msg = {
-        "message": f"Values inserted into payments by {username}",
-        "values": [
-            username,
-            body["paid"],
-            body["reason"],
-            body["date"],
-            body["from_tenant"],
-        ],
+    values = {
+        "paid": body["paid"],
+        "date": body["date"],
+        "reason": body["reason"],
+        "from_tenant": body["from_tenant"],
+        "id": body["id"],
     }
 
-    log_to_db(log_msg)
-
-
-def delete_payment(id):
-    username = get_session()
-    con = get_db()
-
-    with con:
-        data = con.execute(
-            """SELECT * FROM payments WHERE id == :id""", {"id": id}
-        ).fetchone()
-
-        if not data:
-            abort(404)
-
-        con.execute("""DELETE FROM payments WHERE id == :id""", {"id": id})
-
-    data = parse_single_db_data(data)
-
-    log_msg = {
-        "message": f"Values Deleted from payments by {username}",
-        "values": [
-            username,
-            data["paid"],
-            data["reason"],
-            data["date"],
-            data["from_tenant"],
-        ],
-    }
-
-    log_to_db(log_msg)
-
-
-def update_payment(body):
-
-    username = get_session()
-    con = get_db()
-    with con:
-        data = con.execute(
-            """SELECT * FROM payments WHERE id == :id""", {"id": body["id"]}
-        ).fetchone()
-
-        if not data:
-            abort(404)
-
-        con.execute(
-            """UPDATE payments
-        SET 
-        paid = :paid,
-        date = :date,
-        reason = :reason,
-        from_tenant = :from_tenant
-        WHERE id == :id""",
-            {
-                "paid": body["paid"],
-                "date": body["date"],
-                "reason": body["reason"],
-                "from_tenant": body["from_tenant"],
-                "id": body["id"],
-            },
-        )
-
-    data = parse_single_db_data(data)
-
-    log_msg = {
-        "message": f"Values updated in payments by {username}",
-        "prev_values": [
-            username,
-            data["paid"],
-            data["reason"],
-            data["date"],
-            data["from_tenant"],
-        ],
-        "new_values": [
-            username,
-            body["paid"],
-            body["reason"],
-            body["date"],
-            body["from_tenant"],
-        ],
-    }
-
-    log_to_db(log_msg)
+    update_table(_id, table_name, col_names_and_placeholder, values)
