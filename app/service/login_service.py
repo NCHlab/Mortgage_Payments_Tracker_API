@@ -3,7 +3,7 @@ import base64
 from datetime import datetime
 
 from app.core.db import get_db
-from app.core.log import log_to_db
+from app.core.db_log import log_to_db
 
 
 def parse_login() -> str:

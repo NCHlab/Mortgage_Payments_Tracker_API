@@ -2,7 +2,7 @@ from flask import abort
 from typing import List
 
 from app.core.session import get_session
-from app.core.log import log_to_db
+from app.core.db_log import log_to_db
 from app.core.parsers import parse_single_db_data, parse_multi_db_data
 from app.core.db import get_db
 

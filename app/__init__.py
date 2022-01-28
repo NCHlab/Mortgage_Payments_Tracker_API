@@ -76,6 +76,7 @@ def create_app():
     Session(app.app)
     CORS(app.app, supports_credentials=True)
 
+    # Session Token Lifetime
     @app.app.before_request
     def before_request():
         session.permanent = True
