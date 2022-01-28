@@ -19,7 +19,7 @@ class CustomJsonFormatter(jsonlogger.JsonFormatter):
             log_record["timestamp"] = now
 
 
-def setup_logger(logger, log_level):
+def setup_logger(logger, log_level: int) -> None:
     formatter = CustomJsonFormatter(
         "(timestamp) (level) (name) (message) (pathname) (funcName) (lineno)"
     )
@@ -30,7 +30,7 @@ def setup_logger(logger, log_level):
     logger.setLevel(log_level)
 
 
-def convert_log_setting(setting):
+def convert_log_setting(setting: str) -> int:
 
     if setting is None:
         return logging.INFO

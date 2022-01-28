@@ -158,3 +158,4 @@ cython_debug/
 *.xlsx
 *.csv
 notes.txt
+set_paths.sh

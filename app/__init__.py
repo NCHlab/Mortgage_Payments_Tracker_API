@@ -1,9 +1,11 @@
 import os, sys
+import logging
 import connexion
+
+from flask import session
 from flask_cors import CORS
 from flask_session import Session
 
-from flask import session
 from datetime import timedelta
 
 from app.core.db import close_connection
@@ -14,20 +16,7 @@ from app.core.error_handlers import (
     method_not_allowed_404,
     method_not_allowed_405,
 )
-
 from app.core import log
-
-import logging
-
-# logger = logging.getLogger()
-# logger.setLevel(logging.INFO)
-# formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
-
-# stdout_handler = logging.StreamHandler(sys.stdout)
-# stdout_handler.setLevel(logging.DEBUG)
-# stdout_handler.setFormatter(formatter)
-
-# logger.addHandler(stdout_handler)
 
 
 def create_app():
@@ -49,28 +38,20 @@ def create_app():
     try:
         OPENAPI_SPEC_PATH = os.environ["OPENAPI_SPEC_PATH"]
     except KeyError:
-        # logger.error("OPEN API Spec not found, 'OPENAPI_SPEC_PATH' not set.")
-        # sys.exit(1)
-        OPENAPI_SPEC_PATH = "../openapi/"
+        logger.error("OPEN API Spec not found, 'OPENAPI_SPEC_PATH' not set.")
+        sys.exit(1)
 
-    # try:
-    #     MPT_DATABASE_PATH = os.environ["MPT_DATABASE_PATH"]
-    # except KeyError:
-    #     enter_db = input("Enter Database Path? (y/n): ")
-    #     if enter_db == "y" or enter_db == "yes":
-    #         MPT_DATABASE_PATH = input("MPT_DATABASE_PATH: ")
-    #     else:
-    #         logger.error("Database FILE NOT FOUND. 'MPT_DATABASE_PATH' not set")
-    #         sys.exit(1)
-
-    MPT_DATABASE_PATH = "/mnt/e/Projects/Mortgage_Payments_Tracker_API/app/database/"
+    try:
+        MPT_DATABASE_PATH = os.environ["MPT_DATABASE_PATH"]
+    except KeyError:
+        logger.error("Database FILE NOT FOUND. 'MPT_DATABASE_PATH' not set")
+        sys.exit(1)
 
     try:
         MPT_SECRET_KEY = os.environ["MPT_SECRET_KEY"]
     except KeyError:
-        # logger.error("Session Secret Key not found, 'MPT_SECRET_KEY' not set.")
-        # sys.exit(1)
-        MPT_SECRET_KEY = "MyPassword"
+        logger.error("Session Secret Key not found, 'MPT_SECRET_KEY' not set.")
+        sys.exit(1)
 
     config.MPT_DATABASE_PATH = MPT_DATABASE_PATH
 
