@@ -1,13 +1,5 @@
 # Mortgage Payments Tracker API
 
-```bash
-# For Local Dev work:
-# Use pyenv + virtualwrapper to create an env
-
-pyenv activate <name-of-env>
-pip install -e <path_to_package>
-```
-
 Welcome to the Mortgage Payments Tracker API. This is the backend system for the REACTJS website and works with the associated [MPT GUI](https://github.com/NCHlab/mortgage_payments_tracker_gui).
 
 > Note: Due to specific considerations, an instance of this server + API can only be used by 1 set of people who know each other. This is due to data on some endpoints being shared for all users (this project has a specific case for me - which is obvious by its name), thus adding in features for gobal public use has not been done.
@@ -16,8 +8,20 @@ Demo Access can be found on: [demo.nayamc.com/mortgage/api/v1/](demo.nayamc.com/
 
 Documentation regarding endpoints can be found in `openapi/spec.yml`
 
-
 # Notes
+
+```bash
+# For Local Dev work:
+# Use pyenv + virtualwrapper to create an env
+
+pyenv activate <name-of-env>
+
+# Ensure you are in a virtual env
+pip install -r requirements.txt
+
+# Install as a module
+pip install -e <path_to_package> / pip install -e .
+```
 
 On every API call, `get_session` is called to ensure they are authenticated.
 

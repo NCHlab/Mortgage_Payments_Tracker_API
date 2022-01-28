@@ -1,7 +1,10 @@
 from flask import session
+import logging
 
 from app.service.login_service import parse_login, set_last_login_timestamp
 from app.core.session import get_session
+
+logger = logging.getLogger(__name__)
 
 
 def login_endpoint() -> dict:
@@ -16,6 +19,8 @@ def login_endpoint() -> dict:
     session["user_id"] = username
 
     set_last_login_timestamp(username)
+
+    logger.info(f"{username} Logged in")
 
     return response
 

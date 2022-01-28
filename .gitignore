@@ -157,3 +157,4 @@ cython_debug/
 # Custom
 *.xlsx
 *.csv
+notes.txt

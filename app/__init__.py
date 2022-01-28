@@ -15,22 +15,36 @@ from app.core.error_handlers import (
     method_not_allowed_405,
 )
 
+from app.core import log
+
 import logging
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
+# logger = logging.getLogger()
+# logger.setLevel(logging.INFO)
+# formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
 
-stdout_handler = logging.StreamHandler(sys.stdout)
-stdout_handler.setLevel(logging.DEBUG)
-stdout_handler.setFormatter(formatter)
+# stdout_handler = logging.StreamHandler(sys.stdout)
+# stdout_handler.setLevel(logging.DEBUG)
+# stdout_handler.setFormatter(formatter)
 
-logger.addHandler(stdout_handler)
+# logger.addHandler(stdout_handler)
 
 
 def create_app():
 
     config = Config()
+
+    logger = logging.getLogger(__name__)
+
+    try:
+        MPT_LOG_LEVEL = os.environ["MPT_LOG_LEVEL"]
+    except:
+        MPT_LOG_LEVEL = "INFO"
+
+    log_level = log.convert_log_setting(MPT_LOG_LEVEL)
+    log.setup_logger(logger, log_level)
+
+    logger.info("Logger Setup", extra={"base_log_level": MPT_LOG_LEVEL})
 
     try:
         OPENAPI_SPEC_PATH = os.environ["OPENAPI_SPEC_PATH"]

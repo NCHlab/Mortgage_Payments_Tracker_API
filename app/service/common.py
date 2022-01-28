@@ -1,10 +1,14 @@
 from flask import abort
 from typing import List
 
+import logging
+
 from app.core.session import get_session
 from app.core.db_log import log_to_db
 from app.core.parsers import parse_single_db_data, parse_multi_db_data
 from app.core.db import get_db
+
+logger = logging.getLogger(__name__)
 
 
 def get_from_table(table_name: str) -> List[dict]:
@@ -25,6 +29,8 @@ def get_from_table(table_name: str) -> List[dict]:
 
     list_of_payments = parse_multi_db_data(data)
 
+    logger.debug(list_of_payments)
+
     return list_of_payments
 
 
@@ -44,6 +50,8 @@ def get_all_from_table(table_name: str) -> List[dict]:
         return []
 
     list_of_payments = parse_multi_db_data(data)
+
+    logger.debug(list_of_payments)
 
     return list_of_payments
 
@@ -70,6 +78,7 @@ def insert_to_table(
     }
 
     log_to_db(log_msg, table_name, "INSERT")
+    logger.info(log_msg)
 
     return {"id": last_id, **values}
 
@@ -101,6 +110,7 @@ def delete_from_table(_id: int, table_name: str) -> None:
     }
 
     log_to_db(log_msg, table_name, "DELETE")
+    logger.info(log_msg)
 
 
 def update_table(
@@ -138,6 +148,7 @@ def update_table(
     }
 
     log_to_db(log_msg, table_name, "UPDATE")
+    logger.info(log_msg)
 
 
 def get_db_sum_payments(table_name: str, username=None) -> dict:
