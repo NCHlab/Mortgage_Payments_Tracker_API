@@ -1,0 +1,943 @@
+openapi: 3.0.3
+info:
+  title: Mortgage Payments Tracker API
+  description: "This is a API server based around connexion. See [Github](https://github.com/NCHlab/Python_Server_Implementations) repository for more information"
+  contact:
+    email: contact@nayamc.com
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:4004/api/v1
+tags:
+  - name: "Login"
+  - name: "Logout"
+  - name: "Payments"
+  - name: "Overpayments"
+  - name: "Home Improvements"
+paths:
+  /payments:
+    get:
+      tags:
+        - Payments
+      summary: Retrieve payments for user
+      description: ""
+      operationId: get_payments
+      x-openapi-router-controller: app.routes.payments
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_payments"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+    post:
+      tags:
+        - Payments
+      summary: Submit a payment
+      description: ""
+      operationId: add_payment
+      x-openapi-router-controller: app.routes.payments
+      x-codegen-request-body-name: body
+      requestBody:
+        required: true
+        description: add_payment object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/add_payment"
+      responses:
+        201:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post_Payment_Response"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+    put:
+      tags:
+        - Payments
+      summary: Update a payment
+      description: ""
+      operationId: modify_payment
+      x-openapi-router-controller: app.routes.payments
+      x-codegen-request-body-name: body
+      requestBody:
+        required: true
+        description: modify_payment object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/modify_payment"
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+  /payments/{id}:
+    delete:
+      tags:
+        - Payments
+      summary: Delete a payment
+      description: ""
+      operationId: remove_payment
+      x-openapi-router-controller: app.routes.payments
+      parameters:
+        - name: id
+          in: path
+          description: The id to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+  /payments/all:
+    get:
+      tags:
+        - Payments
+      summary: Retrieve payments for all users
+      description: ""
+      operationId: get_all_payments
+      x-openapi-router-controller: app.routes.payments
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_payments"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_401_Response"
+  /overpayments:
+    get:
+      tags:
+        - Overpayments
+      summary: Retrieve overpayments for user
+      description: ""
+      operationId: get_overpayments
+      x-openapi-router-controller: app.routes.overpayments
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_overpayments"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+    post:
+      tags:
+        - Overpayments
+      summary: Submit an overpayment
+      description: ""
+      operationId: add_overpayment
+      x-openapi-router-controller: app.routes.overpayments
+      x-codegen-request-body-name: body
+      requestBody:
+        required: true
+        description: add_overpayment object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/add_overpayment"
+      responses:
+        201:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post_Payment_Response"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+    put:
+      tags:
+        - Overpayments
+      summary: Update an overpayment
+      description: ""
+      operationId: modify_overpayment
+      x-openapi-router-controller: app.routes.overpayments
+      x-codegen-request-body-name: body
+      requestBody:
+        required: true
+        description: modify_overpayment object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/modify_overpayment"
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+  /overpayments/{id}:
+    delete:
+      tags:
+        - Overpayments
+      summary: Delete an overpayment
+      description: ""
+      operationId: remove_overpayment
+      x-openapi-router-controller: app.routes.overpayments
+      parameters:
+        - name: id
+          in: path
+          description: The id to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+  /overpayments/all:
+    get:
+      tags:
+        - Overpayments
+      summary: Retrieve overpayments for all users
+      description: ""
+      operationId: get_all_overpayments
+      x-openapi-router-controller: app.routes.overpayments
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_overpayments"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_401_Response"
+  /home_improvements:
+    get:
+      tags:
+        - Home Improvements
+      summary: Retrieve home improvements payments for a user
+      description: ""
+      operationId: get_home_improvement
+      x-openapi-router-controller: app.routes.home_improvements
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_home_improvements"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+    post:
+      tags:
+        - Home Improvements
+      summary: Submit an home improvement payment
+      description: ""
+      operationId: add_home_improvement
+      x-openapi-router-controller: app.routes.home_improvements
+      x-codegen-request-body-name: body
+      requestBody:
+        required: true
+        description: add_home_improvement object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/add_home_improvement"
+      responses:
+        201:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/modify_home_improvement"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+    put:
+      tags:
+        - Home Improvements
+      summary: Update a home improvement payment
+      description: ""
+      operationId: modify_home_improvement
+      x-openapi-router-controller: app.routes.home_improvements
+      x-codegen-request-body-name: body
+      requestBody:
+        required: true
+        description: modify_home_improvement object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/modify_home_improvement"
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+  /home_improvements/{id}:
+    delete:
+      tags:
+        - Home Improvements
+      summary: Delete an home improvement payment
+      description: ""
+      operationId: remove_home_improvement
+      x-openapi-router-controller: app.routes.home_improvements
+      parameters:
+        - name: id
+          in: path
+          description: The id to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Successful operation
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+  /home_improvements/all:
+    get:
+      tags:
+        - Home Improvements
+      summary: Retrieve home improvements for all users
+      description: ""
+      operationId: get_all_home_improvement
+      x-openapi-router-controller: app.routes.home_improvements
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/get_home_improvements"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_401_Response"
+  /get_login:
+    get:
+      tags:
+        - Login
+      summary: Check if logged in
+      description: Request
+      operationId: get_login
+      x-openapi-router-controller: app.routes.login
+      responses:
+        200:
+          description: Successful operation
+  /login:
+    post:
+      tags:
+        - Login
+      summary: Login to gain a session token
+      description: ""
+      operationId: login_endpoint
+      x-openapi-router-controller: app.routes.login
+      security:
+        - BasicAuth: []
+      x-codegen-request-body-name: body
+      responses:
+        400:
+          description: Invalid Params
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+        401:
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+        405:
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Api_400_Response"
+  /logout:
+    post:
+      tags:
+        - Logout
+      summary: Clears the session
+      description: ""
+      operationId: logout_endpoint
+      x-openapi-router-controller: app.routes.logout
+      responses:
+        204:
+          description: No Content
+  /mortgage:
+    get:
+      tags:
+        - Mortgage
+      summary: Get General Mortgage Information
+      description: Request
+      operationId: get_mortgage
+      x-openapi-router-controller: app.routes.mortgage
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/mortgage_payload"
+  /aggregate:
+    get:
+      tags:
+        - Mortgage
+      summary: Get user aggregate payment data
+      description: Request
+      operationId: get_aggregate
+      x-openapi-router-controller: app.routes.mortgage
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/aggregate_payload"
+  /aggregate/all:
+    get:
+      tags:
+        - Mortgage
+      summary: Get All user aggregate payment data
+      description: Request
+      operationId: get_all_aggregate
+      x-openapi-router-controller: app.routes.mortgage
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/aggregate_all_payload"
+  /download/{tablename}:
+    get:
+      parameters:
+        - name: tablename
+          in: path
+          description: The tablename
+          required: true
+          schema:
+            type: string
+      tags:
+        - Download
+      summary: Download an XLSX file of the request users data for the specified table
+      description: Request
+      operationId: get_download
+      x-openapi-router-controller: app.routes.download
+      responses:
+        200:
+          description: Successful operation
+  /download/all/{tablename}:
+    get:
+      parameters:
+        - name: tablename
+          in: path
+          description: The tablename
+          required: true
+          schema:
+            type: string
+      tags:
+        - Download
+      summary: Download an XLSX file containing 1 sheet per user for the specified table
+      description: Request
+      operationId: get_all_download
+      x-openapi-router-controller: app.routes.download
+      responses:
+        200:
+          description: Successful operation
+  /download/csv/{tablename}:
+    get:
+      parameters:
+        - name: tablename
+          in: path
+          description: The tablename
+          required: true
+          schema:
+            type: string
+      tags:
+        - Download
+      summary: Download a CSV formatted file of the users data for the specified table
+      description: Request
+      operationId: get_csv_download
+      x-openapi-router-controller: app.routes.download
+      responses:
+        200:
+          description: Successful operation
+  /download/csv/all/{tablename}:
+    get:
+      parameters:
+        - name: tablename
+          in: path
+          description: The tablename
+          required: true
+          schema:
+            type: string
+      tags:
+        - Download
+      summary: Download a CSV formatted file of all user data for the specified table
+      description: Request
+      operationId: get_csv_all_download
+      x-openapi-router-controller: app.routes.download
+      responses:
+        200:
+          description: Successful operation
+  /download/combined/all:
+    get:
+      tags:
+        - Download
+      summary: Download an XLSX file containing every user using 1 sheet per table
+      description: Request
+      operationId: get_combined_all_download
+      x-openapi-router-controller: app.routes.download
+      responses:
+        200:
+          description: Successful operation
+  /logs/payment:
+    get:
+      tags:
+        - Logs
+      summary: Retrieve Logs saved in the database
+      description: Request
+      operationId: get_payment_logs
+      x-openapi-router-controller: app.routes.db_logs
+      parameters:
+        - name: tablename
+          in: query
+          description: The tablename
+          style: form
+          explode: true
+          required: true
+          schema:
+            type: string
+        - name: state
+          in: query
+          description: Action State
+          required: true
+          schema:
+            type: string
+        - name: less_than
+          in: query
+          description: less than
+          required: false
+          schema:
+            type: boolean
+        - name: date
+          in: query
+          description: date
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: limit
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful operation
+  /logs/login:
+    get:
+      tags:
+        - Logs
+      summary: Retrieve Logs saved in the database
+      description: Request
+      operationId: get_login_logs
+      x-openapi-router-controller: app.routes.db_logs
+      parameters:
+        - name: less_than
+          in: query
+          description: less than
+          required: false
+          schema:
+            type: boolean
+        - name: date
+          in: query
+          description: date
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: limit
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful operation
+components:
+  schemas:
+    add_payment:
+      type: object
+      properties:
+        paid:
+          type: number
+        date:
+          type: string
+        reason:
+          type: string
+        from_tenant:
+          type: boolean
+      required:
+        - paid
+        - date
+        - reason
+        - from_tenant
+      example:
+        {
+          "paid": 100.0,
+          "reason": "monthly",
+          "date": "2021-12-29T13:59:13.538667",
+          "from_tenant": false,
+        }
+    modify_payment:
+      type: object
+      properties:
+        id:
+          type: integer
+        paid:
+          type: number
+        date:
+          type: string
+        reason:
+          type: string
+        from_tenant:
+          type: boolean
+      required:
+        - id
+        - paid
+        - date
+        - reason
+        - from_tenant
+      example:
+        {
+          "id": 1,
+          "paid": 100.0,
+          "reason": "monthly",
+          "date": "2021-12-29T13:59:13.538667",
+          "from_tenant": false,
+        }
+    get_payments:
+      type: array
+      items:
+        properties:
+          user_id:
+            type: string
+          paid:
+            type: number
+            example: 100
+          date:
+            type: string
+            example: "2021-12-29T13:59:13.538667"
+          reason:
+            type: string
+            example: monthly payment
+          from_tenant:
+            type: integer
+            example: 0
+    add_overpayment:
+      type: object
+      properties:
+        paid:
+          type: number
+        date:
+          type: string
+        reason:
+          type: string
+      required:
+        - paid
+        - date
+        - reason
+      example:
+        {
+          "paid": 100.0,
+          "reason": "monthly",
+          "date": "2021-12-29T13:59:13.538667",
+        }
+    modify_overpayment:
+      type: object
+      properties:
+        id:
+          type: integer
+        paid:
+          type: number
+        date:
+          type: string
+        reason:
+          type: string
+      required:
+        - id
+        - paid
+        - date
+        - reason
+      example:
+        {
+          "id": 1,
+          "paid": 100.0,
+          "reason": "monthly",
+          "date": "2021-12-29T13:59:13.538667",
+        }
+    get_overpayments:
+      type: array
+      items:
+        properties:
+          user_id:
+            type: string
+          paid:
+            type: number
+            example: 120
+          date:
+            type: string
+            example: "2021-12-29T13:59:13.538667"
+          reason:
+            type: string
+            example: monthly payment
+    add_home_improvement:
+      type: object
+      properties:
+        paid:
+          type: number
+        date:
+          type: string
+        reason:
+          type: string
+        chargeable:
+          type: boolean
+      required:
+        - paid
+        - date
+        - reason
+        - chargeable
+      example:
+        {
+          "paid": 100.0,
+          "reason": "monthly",
+          "date": "2021-12-29T13:59:13.538667",
+          "chargeable": true,
+        }
+    modify_home_improvement:
+      type: object
+      properties:
+        id:
+          type: integer
+        paid:
+          type: number
+        date:
+          type: string
+        reason:
+          type: string
+        chargeable:
+          type: boolean
+      required:
+        - id
+        - paid
+        - date
+        - reason
+        - chargeable
+      example:
+        {
+          "id": 1,
+          "paid": 100.0,
+          "reason": "monthly",
+          "date": "2021-12-29T13:59:13.538667",
+          "chargeable": true,
+        }
+    get_home_improvements:
+      type: array
+      items:
+        properties:
+          user_id:
+            type: string
+          paid:
+            type: number
+            example: 100
+          date:
+            type: string
+            example: "2021-12-29T13:59:13.538667"
+          reason:
+            type: string
+            example: monthly payment
+    mortgage_payload:
+      type: object
+      properties:
+        balance:
+          type: number
+        date_updated:
+          type: string
+        interest_rate:
+          type: number
+        loan:
+          type: number
+        period:
+          type: integer
+        provider:
+          type: string
+        start_period:
+          type: integer
+      example:
+        {
+          "balance": 248123.15,
+          "date_updated": "2022-01-01T12:00:04.123456",
+          "interest_rate": 1.44,
+          "loan": 262000.01,
+          "period": 3,
+          "provider": "Barclays",
+          "start_period": 2022,
+        }
+    aggregate_payload:
+      type: object
+      properties:
+        payments:
+          type: number
+        overpayments:
+          type: number
+        home_improvements:
+          type: number
+      example:
+        {
+          "payments": 2500.50,
+          "overpayments": 450.00,
+          "home_improvements": 150.99,
+        }
+    aggregate_all_payload:
+      type: array
+      items:
+        type: object
+        properties:
+          username:
+            type: object
+            properties:
+              payments:
+                type: number
+              overpayments:
+                type: number
+              home_improvements:
+                type: number
+      example:
+        [
+          {
+            "username":
+              {
+                "payments": 2500.50,
+                "overpayments": 450.00,
+                "home_improvements": 150.99,
+              },
+          },
+        ]
+    Post_Payment_Response:
+      type: object
+      properties:
+        id:
+          type: integer
+        paid:
+          type: number
+        date:
+          type: string
+        reason:
+          type: string
+        from_tenant:
+          type: boolean
+      required:
+        - id
+        - paid
+        - date
+        - reason
+        - from_tenant
+      example:
+        {
+          "id": 1,
+          "paid": 100.0,
+          "reason": "monthly",
+          "date": "2021-12-29T13:59:13.538667",
+          "from_tenant": false,
+        }
+    Api_200_Response:
+      type: object
+      properties:
+        set_message:
+          type: string
+          example: Query Value
+    Api_400_Response:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Error Response
+    Api_401_Response:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Error Response
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+      x-basicInfoFunc: app.core.authentication.validate_basic_auth
+    # BearerAuth:
+    #   type: http
+    #   scheme: bearer
+    #   x-bearerInfoFunc: app.core.authentication.validate_bearer_token
