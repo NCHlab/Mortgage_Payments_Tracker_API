@@ -66,7 +66,7 @@ def create_app():
     app.app.config["SESSION_TYPE"] = "filesystem"
     app.app.config["SESSION_FILE_DIR"] = "/tmp/mpt_flask_cache"
     app.app.config["SESSION_COOKIE_SAMESITE"] = None
-    app.app.config["SESSION_COOKIE_SECURE"] = False
+    app.app.config["SESSION_COOKIE_SECURE"] = True
 
     Session(app.app)
     CORS(app.app, supports_credentials=True)
