@@ -415,6 +415,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Api_400_Response"
+  /demo_login:
+    post:
+      tags:
+        - Login
+      summary: Retrieve Demo User Details
+      description: ""
+      operationId: demo_login_endpoint
+      x-openapi-router-controller: app.routes.login
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/demo_login_response"
   /logout:
     post:
       tags:
@@ -914,6 +929,13 @@ components:
           "date": "2021-12-29T13:59:13.538667",
           "from_tenant": false,
         }
+    demo_login_response:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
     Api_200_Response:
       type: object
       properties:

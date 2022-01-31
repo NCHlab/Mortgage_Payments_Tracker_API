@@ -4,6 +4,7 @@ from datetime import datetime
 
 from app.core.db import get_db
 from app.core.db_log import log_to_db
+from app.service.common import unauth_demo_login_details
 
 
 def parse_login() -> str:
@@ -30,3 +31,20 @@ def set_last_login_timestamp(username: str) -> None:
     }
 
     log_to_db(data, None, "LOGIN")
+
+
+def retrieve_user_details(username: str) -> dict:
+
+    data = unauth_demo_login_details(username)
+
+    return data
+
+
+def save_random_password(username: str, password: str) -> None:
+
+    con = get_db()
+    with con:
+        con.execute(
+            f"""UPDATE users SET password = :password WHERE username == :username""",
+            {"password": password, "username": username},
+        )

@@ -10,7 +10,7 @@ config = Config()
 def get_db() -> Type[sqlite3.Connection]:
     db = getattr(g, "_database", None)
     if db is None:
-        db = g._database = sqlite3.connect(config.MPT_DATABASE_PATH + "mortgage.db")
+        db = g._database = sqlite3.connect(config.MPT_DATABASE_PATH + "demo.db")
         db.row_factory = sqlite3.Row
 
     return db

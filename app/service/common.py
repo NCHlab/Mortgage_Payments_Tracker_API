@@ -213,3 +213,20 @@ def strip_out_field(data, field):
             continue
 
     return data
+
+
+def unauth_demo_login_details(username: str) -> dict:
+
+    c = get_db().cursor()
+    c.execute(
+        f"""SELECT username, password FROM users where username == :username""",
+        {"username": username},
+    )
+    data = c.fetchone()
+
+    if not data:
+        return []
+
+    login_details = parse_single_db_data(data)
+
+    return login_details

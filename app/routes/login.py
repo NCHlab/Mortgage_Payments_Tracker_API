@@ -1,7 +1,12 @@
 from flask import session
+from random import randint
 import logging
 
-from app.service.login_service import parse_login, set_last_login_timestamp
+from app.service.login_service import (
+    parse_login,
+    set_last_login_timestamp,
+    retrieve_user_details,
+)
 from app.core.session import get_session
 
 logger = logging.getLogger(__name__)
@@ -29,3 +34,14 @@ def get_login() -> dict:
     username = get_session()
 
     return {"message": f"Logged in as {username}"}
+
+
+def demo_login_endpoint() -> dict:
+
+    list_of_users = ["demo1", "demo2", "demo3", "demo4"]
+    counter = randint(0, 3)
+
+    username = list_of_users[counter]
+    response = retrieve_user_details(username)
+
+    return response
