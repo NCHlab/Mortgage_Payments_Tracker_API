@@ -4,7 +4,7 @@ Welcome to the Mortgage Payments Tracker API. This is the backend system for the
 
 > Note: Due to specific considerations, an instance of this server + API can only be used by 1 set of people who know each other. This is due to data on some endpoints being shared for all users (this project has a specific case for me - which is obvious by its name), thus adding in features for gobal public use has not been done.
 
-Demo Access can be found on: [demo.nayamc.com/mortgage/api/v1/](demo.nayamc.com/mortgage/api/v1/)
+Demo Access can be found on: [mortgage.nayamc.com/demo/api/v1/](mortgage.nayamc.com/demo/api/v1/)
 
 Documentation regarding endpoints can be found in `openapi/spec.yml`
 
