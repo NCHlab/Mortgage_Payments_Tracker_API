@@ -53,6 +53,14 @@ def create_app():
         logger.error("Session Secret Key not found, 'MPT_SECRET_KEY' not set.")
         sys.exit(1)
 
+    try:
+        MPT_FLASK_CACHE_LOC = os.environ["MPT_FLASK_CACHE_LOC"]
+    except KeyError:
+        logger.warn(
+            "Flask Cache Location missing, 'MPT_FLASK_CACHE_LOC' not set. Will use default"
+        )
+        MPT_FLASK_CACHE_LOC = "/tmp/mpt_flask_cache"
+
     config.MPT_DATABASE_PATH = MPT_DATABASE_PATH
 
     app = connexion.FlaskApp(__name__, specification_dir=OPENAPI_SPEC_PATH)
@@ -64,9 +72,9 @@ def create_app():
 
     app.app.config["SECRET_KEY"] = MPT_SECRET_KEY
     app.app.config["SESSION_TYPE"] = "filesystem"
-    app.app.config["SESSION_FILE_DIR"] = "/tmp/mpt_flask_cache"
+    app.app.config["SESSION_FILE_DIR"] = MPT_FLASK_CACHE_LOC
     app.app.config["SESSION_COOKIE_SAMESITE"] = None
-    app.app.config["SESSION_COOKIE_SECURE"] = True
+    app.app.config["SESSION_COOKIE_SECURE"] = False
 
     Session(app.app)
     CORS(app.app, supports_credentials=True)
