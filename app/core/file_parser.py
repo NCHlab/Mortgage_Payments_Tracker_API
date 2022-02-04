@@ -1,17 +1,22 @@
 from typing import List, Type
 import pandas as pd
 from datetime import datetime
+from app.core.configs import Config
+
+
+config = Config()
+DIR = config.DOWNLOAD_LOCATION
 
 
 def csv_parser(data: List[dict], filename: str) -> None:
 
     df = pd.DataFrame(data)
-    df.to_csv(filename, index=False)
+    df.to_csv(DIR + filename, index=False)
 
 
 def xlsx_parser(data: List[dict], filename: str, is_multi: bool = False) -> None:
 
-    writer = pd.ExcelWriter(filename, engine="openpyxl")
+    writer = pd.ExcelWriter(DIR + filename, engine="openpyxl")
 
     if is_multi:
         list_of_sheet_data, list_of_users = xlsx_complex_parser(data)
@@ -92,7 +97,7 @@ def xlsx_combined_parser(data_list: List[dict]) -> str:
 
     filename = f"User_Totals-{date[0:10]}.xlsx"
 
-    writer = pd.ExcelWriter(f"{filename}", engine="openpyxl")
+    writer = pd.ExcelWriter(f"{DIR}{filename}", engine="openpyxl")
 
     # data_dict is unordered, xlsx_complex_parser returns data ordered by name
     for data_dict in data_list:

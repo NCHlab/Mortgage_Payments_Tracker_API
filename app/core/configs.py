@@ -11,3 +11,4 @@ class Config(metaclass=Singleton):
     def __init__(self):
         self._message = None
         self.MPT_DATABASE_PATH = None
+        self.DOWNLOAD_LOCATION = "/tmp/mpt_downloads/"
