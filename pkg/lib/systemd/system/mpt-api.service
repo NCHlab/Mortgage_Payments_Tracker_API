@@ -1,0 +1,13 @@
+[Unit]
+Description=MPT API web service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/share/mpt_api/venv/bin/uwsgi --ini /usr/share/mpt_api/uwsgi/uwsgi.ini
+Restart=always
+RestartSec=10s
+KillSignal=SIGQUIT
+
+[Install]
+WantedBy=multi-user.target
