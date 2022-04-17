@@ -36,7 +36,7 @@ def get_user_info(username: str) -> Type[sqlite3.Row]:
     return data
 
 
-def set_user_info(username, attempts, locked):
+def set_user_info(username: str, attempts: int, locked: bool) -> None:
     con = get_db()
 
     with con:

@@ -33,9 +33,9 @@ def aggregate_user_payments() -> dict:
 
     payments = get_db_sum_payments("payments")
     overpayments = get_db_sum_payments("overpayments")
-    home_improvements = get_db_sum_payments("home_improvements")
+    other_payments = get_db_sum_payments("other_payments")
 
-    data = {**payments, **overpayments, **home_improvements}
+    data = {**payments, **overpayments, **other_payments}
     return data
 
 
@@ -48,9 +48,9 @@ def aggregate_all_user_payments() -> List[dict]:
     for user in all_users:
         payments = get_db_sum_payments("payments", user["username"])
         overpayments = get_db_sum_payments("overpayments", user["username"])
-        home_improvements = get_db_sum_payments("home_improvements", user["username"])
+        other_payments = get_db_sum_payments("other_payments", user["username"])
 
-        single_user_data = {**payments, **overpayments, **home_improvements}
+        single_user_data = {**payments, **overpayments, **other_payments}
         data.append({user["username"]: single_user_data})
 
     return data

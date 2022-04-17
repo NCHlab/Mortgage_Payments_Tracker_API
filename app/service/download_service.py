@@ -42,9 +42,9 @@ def download_combined() -> str:
 
     payments = get_all_from_table("payments")
     overpayments = get_all_from_table("overpayments")
-    home_improvements = get_all_from_table("home_improvements")
+    other_payments = get_all_from_table("other_payments")
 
-    payment_information = [payments, overpayments, home_improvements]
+    payment_information = [payments, overpayments, other_payments]
 
     filename = xlsx_combined_parser(payment_information)
 

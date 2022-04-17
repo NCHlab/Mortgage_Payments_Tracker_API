@@ -91,7 +91,7 @@ def calc_total_sum(data: List[dict]) -> List[dict]:
 def xlsx_combined_parser(data_list: List[dict]) -> str:
 
     sheet_data = []
-    sheet_names = ["payments", "overpayments", "home_improvements"]
+    sheet_names = ["payments", "overpayments", "other_payments"]
 
     date = str(datetime.now().isoformat())
 

@@ -12,7 +12,7 @@ tags:
   - name: "Logout"
   - name: "Payments"
   - name: "Overpayments"
-  - name: "Home Improvements"
+  - name: "Other Payments"
 paths:
   /payments:
     get:
@@ -250,21 +250,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Api_401_Response"
-  /home_improvements:
+  /other_payments:
     get:
       tags:
-        - Home Improvements
-      summary: Retrieve home improvements payments for a user
+        - Other Payments
+      summary: Retrieve Other Payments payments for a user
       description: ""
-      operationId: get_home_improvement
-      x-openapi-router-controller: app.routes.home_improvements
+      operationId: get_other_payment
+      x-openapi-router-controller: app.routes.other_payments
       responses:
         200:
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/get_home_improvements"
+                $ref: "#/components/schemas/get_other_payments"
         401:
           description: Not Authenticated
           content:
@@ -273,26 +273,26 @@ paths:
                 $ref: "#/components/schemas/Api_400_Response"
     post:
       tags:
-        - Home Improvements
-      summary: Submit an home improvement payment
+        - Other Payments
+      summary: Submit an other payment payment
       description: ""
-      operationId: add_home_improvement
-      x-openapi-router-controller: app.routes.home_improvements
+      operationId: add_other_payment
+      x-openapi-router-controller: app.routes.other_payments
       x-codegen-request-body-name: body
       requestBody:
         required: true
-        description: add_home_improvement object
+        description: add_other_payment object
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/add_home_improvement"
+              $ref: "#/components/schemas/add_other_payment"
       responses:
         201:
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/modify_home_improvement"
+                $ref: "#/components/schemas/modify_other_payment"
         401:
           description: Not Authenticated
           content:
@@ -301,19 +301,19 @@ paths:
                 $ref: "#/components/schemas/Api_400_Response"
     put:
       tags:
-        - Home Improvements
-      summary: Update a home improvement payment
+        - Other Payments
+      summary: Update a other payment payment
       description: ""
-      operationId: modify_home_improvement
-      x-openapi-router-controller: app.routes.home_improvements
+      operationId: modify_other_payment
+      x-openapi-router-controller: app.routes.other_payments
       x-codegen-request-body-name: body
       requestBody:
         required: true
-        description: modify_home_improvement object
+        description: modify_other_payment object
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/modify_home_improvement"
+              $ref: "#/components/schemas/modify_other_payment"
       responses:
         204:
           description: Successful operation
@@ -323,14 +323,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Api_400_Response"
-  /home_improvements/{id}:
+  /other_payments/{id}:
     delete:
       tags:
-        - Home Improvements
-      summary: Delete an home improvement payment
+        - Other Payments
+      summary: Delete an other payment payment
       description: ""
-      operationId: remove_home_improvement
-      x-openapi-router-controller: app.routes.home_improvements
+      operationId: remove_other_payment
+      x-openapi-router-controller: app.routes.other_payments
       parameters:
         - name: id
           in: path
@@ -347,21 +347,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Api_400_Response"
-  /home_improvements/all:
+  /other_payments/all:
     get:
       tags:
-        - Home Improvements
-      summary: Retrieve home improvements for all users
+        - Other Payments
+      summary: Retrieve Other Payments for all users
       description: ""
-      operationId: get_all_home_improvement
-      x-openapi-router-controller: app.routes.home_improvements
+      operationId: get_all_other_payment
+      x-openapi-router-controller: app.routes.other_payments
       responses:
         200:
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/get_home_improvements"
+                $ref: "#/components/schemas/get_other_payments"
         401:
           description: Not Authenticated
           content:
@@ -755,7 +755,7 @@ components:
           reason:
             type: string
             example: monthly payment
-    add_home_improvement:
+    add_other_payment:
       type: object
       properties:
         paid:
@@ -778,7 +778,7 @@ components:
           "date": "2021-12-29T13:59:13.538667",
           "chargeable": true,
         }
-    modify_home_improvement:
+    modify_other_payment:
       type: object
       properties:
         id:
@@ -805,7 +805,7 @@ components:
           "date": "2021-12-29T13:59:13.538667",
           "chargeable": true,
         }
-    get_home_improvements:
+    get_other_payments:
       type: array
       items:
         properties:
@@ -854,13 +854,13 @@ components:
           type: number
         overpayments:
           type: number
-        home_improvements:
+        other_payments:
           type: number
       example:
         {
           "payments": 2500.50,
           "overpayments": 450.00,
-          "home_improvements": 150.99,
+          "other_payments": 150.99,
         }
     aggregate_all_payload:
       type: array
@@ -874,7 +874,7 @@ components:
                 type: number
               overpayments:
                 type: number
-              home_improvements:
+              other_payments:
                 type: number
       example:
         [
@@ -883,7 +883,7 @@ components:
               {
                 "payments": 2500.50,
                 "overpayments": 450.00,
-                "home_improvements": 150.99,
+                "other_payments": 150.99,
               },
           },
         ]
