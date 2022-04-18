@@ -52,7 +52,7 @@ c.execute(
 )
 
 c.execute(
-    """CREATE TABLE home_improvements (
+    """CREATE TABLE other_payments (
         id INTEGER PRIMARY KEY,
         user_id TEXT,
         paid REAL,

@@ -10,19 +10,19 @@ from app.service.common import (
 )
 
 
-def single_user_home_improvements() -> List[dict]:
-    return get_from_table("home_improvements")
+def single_user_other_payments() -> List[dict]:
+    return get_from_table("other_payments")
 
 
-def all_user_home_improvements() -> List[dict]:
-    return get_all_from_table("home_improvements")
+def all_user_other_payments() -> List[dict]:
+    return get_all_from_table("other_payments")
 
 
-def insert_home_improvements(body: dict) -> None:
+def insert_other_payments(body: dict) -> None:
 
     username = get_session()
 
-    table_name = "home_improvements"
+    table_name = "other_payments"
     col_names = "user_id, paid, chargeable, date, reason"
     placeholder = ":user_id, :paid, :chargeable, :date, :reason"
     values = {
@@ -38,18 +38,18 @@ def insert_home_improvements(body: dict) -> None:
     return inserted_data
 
 
-def delete_home_improvements(id: int) -> None:
+def delete_other_payments(id: int) -> None:
 
-    table_name = "home_improvements"
+    table_name = "other_payments"
     delete_from_table(id, table_name)
 
 
-def update_home_improvements(body: dict) -> None:
+def update_other_payments(body: dict) -> None:
 
     get_session()
 
     _id = body["id"]
-    table_name = "home_improvements"
+    table_name = "other_payments"
     col_names_and_placeholder = (
         "paid = :paid, date = :date, reason = :reason, chargeable = :chargeable"
     )

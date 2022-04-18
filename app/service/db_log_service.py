@@ -23,7 +23,9 @@ def db_log_payment_service(
     tablename = query_extractor(tablename)
     state = query_extractor(state)
 
-    table_query = query_formatter(tablename, ["payments", "overpayments", "home_improvements"])
+    table_query = query_formatter(
+        tablename, ["payments", "overpayments", "other_payments"]
+    )
     state_query = query_formatter(state, ["INSERT", "UPDATE", "DELETE"])
 
     final_query = query_builder(table_query, state_query, less_than, date, limit)
